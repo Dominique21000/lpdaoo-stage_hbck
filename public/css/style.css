@@ -1,7 +1,5 @@
 body{
     background-color: goldenrod;
-    text-align: center;
-    margin:0;
 }
 
 .ecr_accueil{
@@ -11,4 +9,28 @@ body{
     width: 500px; 
     top: 50%; left: 50%; /* à 50%/50% du parent référent */
     transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+}
+
+.fondJaune{
+    background:goldenrod;
+}
+
+.haut{
+    margin-top: 0px;
+}
+
+#m_r, #p_m{
+    height:300px;
+    border: goldenrod solid 1px;
+}
+
+footer{
+    position: absolute;
+    left:0px;
+    top:95%;
+    width:100%;
+    text-align: center;
+    height: 5%;
+    background-color: goldenrod;
+    font-weight: bold;
 }
