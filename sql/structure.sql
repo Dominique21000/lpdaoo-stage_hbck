@@ -1,12 +1,12 @@
 -- script de creation de la structure de la base de donnees
 -- creation de la base
---CREATE  DATABASE IF NOT EXISTS appli-hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci ;
 
 -- on se positionne sur la DATABASE
 USE appli_hbck_bd;
 
 -- creation de la table user
-CREATE TABLE Utilisateur (
+CREATE TABLE IF NOT EXISTS Utilisateur (
     uti_id int PRIMARY KEY AUTO_INCREMENT,
     uti_nom VARCHAR(50),
     uti_prenom VARCHAR(50),
