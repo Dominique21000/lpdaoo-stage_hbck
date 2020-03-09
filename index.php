@@ -20,6 +20,10 @@ switch ($rub) {
         SiteController::accueil();
         break;
 
+    case "importation":
+        SiteController::importation();
+        break;
+
     default:
         SiteController::index();
 }

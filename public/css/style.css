@@ -22,10 +22,15 @@ body{
 #m_r, #p_m{
     height:300px;
     border: goldenrod solid 1px;
+    overflow-y: scroll;
+}
+
+#p_m {
+    height: 200px;
 }
 
 footer{
-    position: absolute;
+    position: fixed;
     left:0px;
     top:95%;
     width:100%;
