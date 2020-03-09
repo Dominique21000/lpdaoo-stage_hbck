@@ -16,6 +16,10 @@ switch ($rub) {
         SiteController::importation();
         break;
 
+    case "admin-trt-fichier":
+        SiteController::trtFichier($_POST, $_FILES);
+        break;
+
     default:
         SiteController::index();
 }
