@@ -8,14 +8,6 @@ if (isset($_GET['rub'])) {
 };
 
 switch ($rub) {
-    case "hello":
-        SiteController::Hello();
-        break;
-
-    case "prenom":
-        SiteController::prenom();
-        break;
-    
     case "accueil":
         SiteController::accueil();
         break;
