@@ -15,6 +15,20 @@ CREATE TABLE IF NOT EXISTS Adresse (
     PRIMARY KEY (adr_id)
 );
 
+-- creation de la table division
+CREATE TABLE IF NOT EXISTS Division (
+    div_id int NOT NULL AUTO_INCREMENT,
+    div_nom VARCHAR(50) NOT NULL,
+    PRIMARY KEY (div_id)
+);
+
+-- creation de la table type_utilisateur
+CREATE TABLE IF NOT EXISTS Type_utilisateur (
+    tu_id int NOT NULL AUTO_INCREMENT,
+    tu_libelle VARCHAR(50) NOT NULL,
+    PRIMARY KEY (tu_id)
+);
+
 -- creation de la table utilisateur
 CREATE TABLE IF NOT EXISTS Utilisateur (
     uti_id INT NOT NULL AUTO_INCREMENT,
@@ -44,64 +58,68 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
 CREATE TABLE IF NOT EXISTS Equipe (
     equ_id int NOT NULL AUTO_INCREMENT,
     equ_div_id INT NOT NULL,
-    equ_res_id INT NOT NULL,
+    equ_responsable_id INT NOT NULL,
     equ_nom VARCHAR(50) NOT NULL,
     PRIMARY KEY (equ_id),
+    FOREIGN KEY (equ_div_id) REFERENCES Division(div_id),
+    FOREIGN KEY (equ_responsable_id) REFERENCES Utilisateur(uti_id)
 );
 
--- creation de la table type_utilisateur
-CREATE TABLE IF NOT EXISTS Type_utilisateur (
-    tu_id int PRIMARY KEY AUTO_INCREMENT,
-    tu_libelle VARCHAR(50) NOT NULL
-);
-
--- creation de la table division
-CREATE TABLE IF NOT EXISTS Division (
-    div_id int PRIMARY KEY AUTO_INCREMENT,
-    div_nom VARCHAR(50) NOT NULL
-);
-
--- creation de la table évènement
+-- creation de la table evenement
 CREATE TABLE IF NOT EXISTS Evenement (
-    eve_id INT PRIMARY KEY AUTO_INCREMENT,
+    eve_id INT NOT NULL AUTO_INCREMENT,
     eve_adr_id INT NOT NULL,
-    eve_date DATE NOT NULL
+    eve_date DATE NOT NULL,
+    PRIMARY KEY (eve_id),
+    FOREIGN KEY (eve_adr_id) REFERENCES Adresse(adr_id)
+
 );
 
 -- creation de la table match_jeu
 CREATE TABLE IF NOT EXISTS Match_jeu (
-    mat_eve_id INT PRIMARY KEY,
+    mat_eve_id INT NOT NULL,
     mat_opposant varchar(50) NOT NULL,
-    mat_resultat varchar(100)
+    mat_resultat varchar(100),
+    PRIMARY KEY (mat_eve_id),
+    FOREIGN KEY (mat_eve_id) REFERENCES Evenement(eve_id)
 );
 
 -- creation de la table entrainement
 CREATE TABLE IF NOT EXISTS Entrainement (
-    ent_eve_id INT PRIMARY KEY,
+    ent_eve_id INT NOT NULL,
     ent_libele VARCHAR(50),
-    ent_summary VARCHAR(200)
+    ent_summary VARCHAR(200),
+    PRIMARY KEY (ent_eve_id),
+    FOREIGN KEY (ent_eve_id) REFERENCES Evenement(eve_id)
 );
 
--- creation de la table fête
+-- creation de la table fete
 CREATE TABLE IF NOT EXISTS Fete (
-    fet_eve_id INT PRIMARY KEY,
+    fet_eve_id INT NOT NULL,
     fet_nom VARCHAR(100) NOT NULL,
     fet_prix_adulte INT,
-    fet_prix_enfant INT
+    fet_prix_enfant INT,
+    PRIMARY KEY (fet_eve_id),
+    FOREIGN KEY (fet_eve_id) REFERENCES Evenement(eve_id)
 );
--- creation de la table être_membre
+-- creation de la table etre_membre
 CREATE TABLE IF NOT EXISTS Etre_membre (
     em_uti_id INT,
     em_equ_id INT,
     em_numero INT,
-    PRIMARY KEY (em_uti_id, em_equ_id)
+    PRIMARY KEY (em_uti_id, em_equ_id),
+    FOREIGN KEY (em_uti_id) REFERENCES Utilisateur(uti_id),
+    FOREIGN KEY (em_equ_id) REFERENCES Equipe(equ_id)
+
 );
 
--- creation de la table à_payé
+-- creation de la table a_paye
 CREATE TABLE IF NOT EXISTS A_paye (
-    ap_fet_id INT,
-    ap_uti_id INT,
+    ap_fet_id INT NOT NULL,
+    ap_uti_id INT NOT NULL,
     ap_adultes INT NOT NULL,
     ap_enfant INT NOT NULL,
-    PRIMARY KEY ( ap_fet_id, ap_uti_id)
+    PRIMARY KEY (ap_fet_id, ap_uti_id),
+    FOREIGN KEY (ap_uti_id) REFERENCES Utilisateur(uti_id),
+    FOREIGN KEY (ap_fet_id) REFERENCES Fete(fet_eve_id)
 );
