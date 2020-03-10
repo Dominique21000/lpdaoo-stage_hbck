@@ -1,22 +1,24 @@
 -- script de creation de la structure de la base de donnees
 -- creation de la base
-CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci ;
 
 -- on se positionne sur la DATABASE
 USE appli_hbck_bd;
 
 -- creation de la table Adresse
 CREATE TABLE IF NOT EXISTS Adresse (
-    adr_id int PRIMARY KEY AUTO_INCREMENT,
+    adr_id INT NOT NULL AUTO_INCREMENT,
     adr_adresse VARCHAR(100) NOT NULL,
     adr_cp VARCHAR(5) NOT NULL,
     adr_ville VARCHAR(100) NOT NULL,
-    adr_lieu VARCHAR(100)
+    adr_lieu VARCHAR(100),
+    PRIMARY KEY (adr_id)
 );
 
 -- creation de la table utilisateur
 CREATE TABLE IF NOT EXISTS Utilisateur (
-    uti_id INT PRIMARY KEY AUTO_INCREMENT,
+    uti_id INT NOT NULL AUTO_INCREMENT,
+    uti_tu_id INT NOT NULL,
     uti_nom VARCHAR(50) NOT NULL,
     uti_prenom VARCHAR(50) NOT NULL,
     uti_sexe CHAR,
@@ -33,15 +35,18 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     uti_tel_bureau VARCHAR(20),
     uti_tel_resp_legal_1 VARCHAR(20),
     uti_tel_resp_legal_2 VARCHAR(20),
-    uti_offrecom TINYINT
+    uti_offrecom TINYINT,
+    PRIMARY KEY (uti_id),
+    FOREIGN KEY (uti_tu_id) REFERENCES Type_utilisateur(tu_id)
 );
 
 -- creation de la table equipe
 CREATE TABLE IF NOT EXISTS Equipe (
-    equ_id int PRIMARY KEY AUTO_INCREMENT,
+    equ_id int NOT NULL AUTO_INCREMENT,
     equ_div_id INT NOT NULL,
+    equ_res_id INT NOT NULL,
     equ_nom VARCHAR(50) NOT NULL,
-    equ_res_id INT NOT NULL
+    PRIMARY KEY (equ_id),
 );
 
 -- creation de la table type_utilisateur
