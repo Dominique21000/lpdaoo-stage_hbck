@@ -1,6 +1,6 @@
 -- script de creation de la structure de la base de donnees
 -- creation de la base
-CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci ;
+CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
 -- on se positionne sur la DATABASE
 USE appli_hbck_bd;
