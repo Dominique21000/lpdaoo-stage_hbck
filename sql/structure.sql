@@ -1,12 +1,15 @@
 -- script de creation de la structure de la base de donnees
+
+START TRANSACTION;
 -- creation de la base
-CREATE DATABASE IF NOT EXISTS appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci ;
+DROP DATABASE appli_hbck_bd;
+CREATE DATABASE appli_hbck_bd CHARACTER SET UTF8 COLLATE utf8_general_ci ;
 
 -- on se positionne sur la DATABASE
 USE appli_hbck_bd;
 
 -- creation de la table Adresse
-CREATE TABLE IF NOT EXISTS Adresse (
+CREATE TABLE Adresse (
     adr_id INT NOT NULL AUTO_INCREMENT,
     adr_adresse VARCHAR(100) NOT NULL,
     adr_cp VARCHAR(5) NOT NULL,
@@ -16,21 +19,21 @@ CREATE TABLE IF NOT EXISTS Adresse (
 );
 
 -- creation de la table division
-CREATE TABLE IF NOT EXISTS Division (
+CREATE TABLE Division (
     div_id int NOT NULL AUTO_INCREMENT,
     div_nom VARCHAR(50) NOT NULL,
     PRIMARY KEY (div_id)
 );
 
 -- creation de la table type_utilisateur
-CREATE TABLE IF NOT EXISTS Type_utilisateur (
+CREATE TABLE Type_utilisateur (
     tu_id int NOT NULL AUTO_INCREMENT,
     tu_libelle VARCHAR(50) NOT NULL,
     PRIMARY KEY (tu_id)
 );
 
 -- creation de la table utilisateur
-CREATE TABLE IF NOT EXISTS Utilisateur (
+CREATE TABLE Utilisateur (
     uti_id INT NOT NULL AUTO_INCREMENT,
     uti_tu_id INT NOT NULL,
     uti_nom VARCHAR(50) NOT NULL,
@@ -55,7 +58,7 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
 );
 
 -- creation de la table equipe
-CREATE TABLE IF NOT EXISTS Equipe (
+CREATE TABLE Equipe (
     equ_id int NOT NULL AUTO_INCREMENT,
     equ_div_id INT NOT NULL,
     equ_responsable_id INT NOT NULL,
@@ -66,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Equipe (
 );
 
 -- creation de la table evenement
-CREATE TABLE IF NOT EXISTS Evenement (
+CREATE TABLE Evenement (
     eve_id INT NOT NULL AUTO_INCREMENT,
     eve_adr_id INT NOT NULL,
     eve_date DATE NOT NULL,
@@ -76,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Evenement (
 );
 
 -- creation de la table match_jeu
-CREATE TABLE IF NOT EXISTS Match_jeu (
+CREATE TABLE Match_jeu (
     mat_eve_id INT NOT NULL,
     mat_opposant varchar(50) NOT NULL,
     mat_resultat varchar(100),
@@ -85,7 +88,7 @@ CREATE TABLE IF NOT EXISTS Match_jeu (
 );
 
 -- creation de la table entrainement
-CREATE TABLE IF NOT EXISTS Entrainement (
+CREATE TABLE Entrainement (
     ent_eve_id INT NOT NULL,
     ent_libele VARCHAR(50),
     ent_summary VARCHAR(200),
@@ -94,7 +97,7 @@ CREATE TABLE IF NOT EXISTS Entrainement (
 );
 
 -- creation de la table fete
-CREATE TABLE IF NOT EXISTS Fete (
+CREATE TABLE Fete (
     fet_eve_id INT NOT NULL,
     fet_nom VARCHAR(100) NOT NULL,
     fet_prix_adulte INT,
@@ -103,7 +106,7 @@ CREATE TABLE IF NOT EXISTS Fete (
     FOREIGN KEY (fet_eve_id) REFERENCES Evenement(eve_id)
 );
 -- creation de la table de liaison entre utilisateur et equipe (membre)
-CREATE TABLE IF NOT EXISTS L_utilisateur_equipe (
+CREATE TABLE L_utilisateur_equipe (
     lue_uti_id INT,
     lue_equ_id INT,
     lue_numero INT,
@@ -114,7 +117,7 @@ CREATE TABLE IF NOT EXISTS L_utilisateur_equipe (
 );
 
 -- creation de la table de liaison entre utilisateur et fete (a paye)
-CREATE TABLE IF NOT EXISTS L_utilisateur_fete (
+CREATE TABLE L_utilisateur_fete (
     luf_fet_id INT NOT NULL,
     luf_uti_id INT NOT NULL,
     luf_adultes INT NOT NULL,
@@ -125,7 +128,7 @@ CREATE TABLE IF NOT EXISTS L_utilisateur_fete (
 );
 
 -- creation de la table a_paye
-CREATE TABLE IF NOT EXISTS L_equipe_match (
+CREATE TABLE L_equipe_match (
     lem_equ_id INT NOT NULL,
     lem_mat_id INT NOT NULL,
     PRIMARY KEY (lem_equ_id, lem_mat_id),
@@ -133,10 +136,12 @@ CREATE TABLE IF NOT EXISTS L_equipe_match (
     FOREIGN KEY (lem_mat_id) REFERENCES Match_jeu(mat_eve_id)
 );
 -- creation de la table a_paye
-CREATE TABLE IF NOT EXISTS L_equipe_entrainement (
+CREATE TABLE L_equipe_entrainement (
     lee_equ_id INT NOT NULL,
     lee_ent_id INT NOT NULL,
     PRIMARY KEY (lee_equ_id, lee_ent_id),
     FOREIGN KEY (lee_equ_id) REFERENCES Equipe(equ_id),
     FOREIGN KEY (lee_ent_id) REFERENCES Entrainement(ent_eve_id)
 );
+
+COMMIT;
