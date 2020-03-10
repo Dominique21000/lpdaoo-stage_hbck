@@ -102,24 +102,41 @@ CREATE TABLE IF NOT EXISTS Fete (
     PRIMARY KEY (fet_eve_id),
     FOREIGN KEY (fet_eve_id) REFERENCES Evenement(eve_id)
 );
--- creation de la table etre_membre
-CREATE TABLE IF NOT EXISTS Etre_membre (
-    em_uti_id INT,
-    em_equ_id INT,
-    em_numero INT,
-    PRIMARY KEY (em_uti_id, em_equ_id),
-    FOREIGN KEY (em_uti_id) REFERENCES Utilisateur(uti_id),
-    FOREIGN KEY (em_equ_id) REFERENCES Equipe(equ_id)
+-- creation de la table de liaison entre utilisateur et equipe (membre)
+CREATE TABLE IF NOT EXISTS L_utilisateur_equipe (
+    lue_uti_id INT,
+    lue_equ_id INT,
+    lue_numero INT,
+    PRIMARY KEY (lue_uti_id, em_equ_id),
+    FOREIGN KEY (lue_uti_id) REFERENCES Utilisateur(uti_id),
+    FOREIGN KEY (lue_equ_id) REFERENCES Equipe(equ_id)
 
 );
 
+-- creation de la table de liaison entre utilisateur et fete (a paye)
+CREATE TABLE IF NOT EXISTS L_utilisateur_fete (
+    luf_fet_id INT NOT NULL,
+    luf_uti_id INT NOT NULL,
+    luf_adultes INT NOT NULL,
+    luf_enfant INT NOT NULL,
+    PRIMARY KEY (luf_fet_id, ap_uti_id),
+    FOREIGN KEY (luf_uti_id) REFERENCES Utilisateur(uti_id),
+    FOREIGN KEY (luf_fet_id) REFERENCES Fete(fet_eve_id)
+);
+
 -- creation de la table a_paye
-CREATE TABLE IF NOT EXISTS A_paye (
-    ap_fet_id INT NOT NULL,
-    ap_uti_id INT NOT NULL,
-    ap_adultes INT NOT NULL,
-    ap_enfant INT NOT NULL,
-    PRIMARY KEY (ap_fet_id, ap_uti_id),
-    FOREIGN KEY (ap_uti_id) REFERENCES Utilisateur(uti_id),
-    FOREIGN KEY (ap_fet_id) REFERENCES Fete(fet_eve_id)
+CREATE TABLE IF NOT EXISTS L_equipe_match (
+    lem_equ_id INT NOT NULL,
+    lem_mat_id INT NOT NULL,
+    PRIMARY KEY (lem_equ_id, lem_mat_id),
+    FOREIGN KEY (lem_equ_id) REFERENCES Equipe(equ_id),
+    FOREIGN KEY (lem_mat_id) REFERENCES Match_jeu(mat_eve_id)
+);
+-- creation de la table a_paye
+CREATE TABLE IF NOT EXISTS L_equipe_entrainement (
+    lee_equ_id INT NOT NULL,
+    lee_ent_id INT NOT NULL,
+    PRIMARY KEY (lee_equ_id, lee_mat_id),
+    FOREIGN KEY (lee_equ_id) REFERENCES Equipe(equ_id),
+    FOREIGN KEY (lee_ent_id) REFERENCES Entrainement(ent_eve_id)
 );
