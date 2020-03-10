@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS L_utilisateur_equipe (
     lue_uti_id INT,
     lue_equ_id INT,
     lue_numero INT,
-    PRIMARY KEY (lue_uti_id, em_equ_id),
+    PRIMARY KEY (lue_uti_id, lue_equ_id),
     FOREIGN KEY (lue_uti_id) REFERENCES Utilisateur(uti_id),
     FOREIGN KEY (lue_equ_id) REFERENCES Equipe(equ_id)
 
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS L_utilisateur_fete (
     luf_uti_id INT NOT NULL,
     luf_adultes INT NOT NULL,
     luf_enfant INT NOT NULL,
-    PRIMARY KEY (luf_fet_id, ap_uti_id),
+    PRIMARY KEY (luf_fet_id, luf_uti_id),
     FOREIGN KEY (luf_uti_id) REFERENCES Utilisateur(uti_id),
     FOREIGN KEY (luf_fet_id) REFERENCES Fete(fet_eve_id)
 );
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS L_equipe_match (
 CREATE TABLE IF NOT EXISTS L_equipe_entrainement (
     lee_equ_id INT NOT NULL,
     lee_ent_id INT NOT NULL,
-    PRIMARY KEY (lee_equ_id, lee_mat_id),
+    PRIMARY KEY (lee_equ_id, lee_ent_id),
     FOREIGN KEY (lee_equ_id) REFERENCES Equipe(equ_id),
     FOREIGN KEY (lee_ent_id) REFERENCES Entrainement(ent_eve_id)
 );
