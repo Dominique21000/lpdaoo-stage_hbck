@@ -20,10 +20,6 @@ switch ($rub) {
         SiteController::trtFichier($_POST, $_FILES);
         break;
 
-    case "alladresse":
-        SiteController::alladresse();
-        break;
-
     default:
         SiteController::index();
 }

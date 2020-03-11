@@ -12,14 +12,12 @@ class FFHB{
         //echo "feuille : " . $sheets[1] ."<br>"; 
         $data = $xlsx->getSheetData($sheets[1]);
 
-
         // on ferme
         $xlsx= null;
 
         //nb_licencies = count($data)-1;
         
     /*    $champs = array (
-
             ':num_structure' => 'Num_structure',
             ':nom' => 'Nom',
             ':prenom' => 'Prenom',
@@ -40,7 +38,6 @@ class FFHB{
             ':residence' => 'residence',
             ':lieu_dit' => 'lieu_dit',
             ':offreCom' => 'OffreCom'
-
         );
         */
 
@@ -100,13 +97,6 @@ class FFHB{
             $ub_data = $ub->getUtilisateur($o_conn, $data);
             var_dump($ub_data);
 
-        /* debug local
-        $champs=[];
-        $joueur=[];
-        echo $twig->render('admin/importation-selection.html.twig', 
-                                    ['champs' => $champs,
-                                    'joueurs' => $joueur]);
-        //*/
 
         }        
        //$joueur = [];
