@@ -64,23 +64,12 @@ class SiteController
                 
             }
 
-            
+            echo $twig->render('alladresse.html.twig', 
+            ['adresses' => $adresses]);
             //readfile($_FILES['dataFile']['tmp_name']);
          } else {
             echo "Attaque possible par téléchargement de fichier : ";
             echo "Nom du fichier : '". $_FILES['dataFile']['tmp_name'] . "'.";
          }
-         
-
     }
-
-    public static function alladresse(){
-        $loader = new \Twig\Loader\FilesystemLoader('view');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-        ]);
-        echo $twig->render('alladresse.html.twig');
-    }
-
-
 }
