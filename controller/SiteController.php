@@ -34,7 +34,7 @@ class SiteController
         echo $twig->render('accueil.html.twig');
     }
 
-    public static function importation(){
+    public static function importation($tabPost, $tabFile){
         $loader = new \Twig\Loader\FilesystemLoader('view');
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
@@ -44,36 +44,66 @@ class SiteController
     }
 
     public static function trtFichier($tabPost, $tabFile){
-        error_reporting(E_ALL | E_STRICT);
         $monAdresse = "intranet/lp-daoo/stage_hbck/public/docs/";
 
-        echo "dans trt fichier";
         if (is_uploaded_file($_FILES['dataFile']['tmp_name'])) {
-            echo "File ". $_FILES['dataFile']['name'] ." téléchargé avec succès.<br>";
-            echo "Affichage du contenu<br/>";
+            //echo "Fichier ". $_FILES['dataFile']['name'] ." téléchargé avec succès.<br>";
+            
             $origin = $_FILES['dataFile']['tmp_name'];
-            $destination = $_SERVER['DOCUMENT_ROOT'] . $monAdresse .date("Y-m-d--")."data.xlsx";
-
-            echo "origin : " . $origin ."<br>";
-            echo "destin : " . $destination ."<br>";
+            //$type_fichier = $_FILES['dataFile']['type'];
+            //echo "type : " . $type_fichier ."<br>";
+                        
+            // on récupère la date dans l'onglet
+            $xlsx = new XLSXReader($_FILES['dataFile']['tmp_name']);
+            $sheets = $xlsx->getSheetNames();
+            $date_export = substr($sheets[1],0,10);
+            
+            // move du fichier
+            $destination = $_SERVER['DOCUMENT_ROOT'] . $monAdresse ."/".$date_export ."--data.xlsx";
+            //echo "origin : " . $origin ."<br>";
+            //echo "destin : " . $destination ."<br>";
             //if (copy( $origin, $destination)){
             if (move_uploaded_file( $_FILES['dataFile']['tmp_name'], $destination))
             {
-                echo "Le fichier a été uploadé avec succès.";
-                FFHB::importation($destination);
+                //echo "Le fichier a été uploadé avec succès.";
+                $joueurs = FFHB::importation($destination);
+                $nb_licencies = count($joueurs);
+
+
+                // envoi du résultat à la vue
+                // envoie de la réponse
+                $loader = new \Twig\Loader\FilesystemLoader('view');
+                $twig = new \Twig\Environment($loader, [
+                    'cache' => false,
+                ]);
 
                 
-            }
+                echo $twig->render('admin/resultat.html.twig', 
+                                            ["traitement" => "importation",
+                                            "resultat" => "ok",
+                                            "nb_licencies" => $nb_licencies,
+                                            "joueurs"=> $joueurs,
+                                            ]);
+
+                        
+                        
+                    }
 
             
             //readfile($_FILES['dataFile']['tmp_name']);
          } else {
-            echo "Attaque possible par téléchargement de fichier : ";
-            echo "Nom du fichier : '". $_FILES['dataFile']['tmp_name'] . "'.";
+
+            //echo "Attaque possible par téléchargement de fichier : ";
+            //echo "Nom du fichier : '". $_FILES['dataFile']['tmp_name'] . "'.";
+
+            $loader = new \Twig\Loader\FilesystemLoader('view');
+            $twig = new \Twig\Environment($loader, [
+                            'cache' => false,
+                         ]);
+
+            echo $twig->render('admin/resultat.html.twig',
+                    ["traitement"=> "importation",
+                    'resultat' => "ko"]);
          }
-         
-
     }
-
-
 }

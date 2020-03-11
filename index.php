@@ -13,7 +13,7 @@ switch ($rub) {
         break;
 
     case "importation":
-        SiteController::importation();
+        SiteController::importation($_POST, $_FILES);
         break;
 
     case "admin-trt-fichier":
