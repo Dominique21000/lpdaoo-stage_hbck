@@ -9,7 +9,7 @@ class Database
     var $connection = "";
 
     // paramètres passée : valeur par défaut
-    function __construct($base = "appli_hbck_bd", $user = "phpmyadmin", $password = "phpmyadmin*1", $host = "127.0.0.1")
+    function __construct($base = "appli_hbck_bd", $user = "phpmyadmin", $password = "phpMyAdmin*1", $host = "127.0.0.1")
 
     {
         $this->baseName = $base;
@@ -30,3 +30,7 @@ class Database
         return $this->connection;
     }
 }
+/*
+$datab=new Database();
+$dbh=$datab->makeConnect();
+*/

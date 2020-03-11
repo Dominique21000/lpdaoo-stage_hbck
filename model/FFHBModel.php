@@ -11,7 +11,7 @@ class FFHB{
         $data = $xlsx->getSheetData($sheets[1]);
         $taille = count($data);
         echo "taille : " . $taille;
-
+/*
         $champs = array{
             ':num_structure' => 'Num_structure',
             ':nom' => 'Nom',
@@ -34,7 +34,7 @@ class FFHB{
             ':lieu_dit' => 'lieu_dit',
             ':offreCom' => 'OffreCom'
         }
-
+*/
         
         for ($cpt_joueur = 1; $cpt_joueur < count($data)-1; $cpt_joueur ++){
             $joueur = array (
@@ -77,9 +77,13 @@ class FFHB{
             'cache' => false,
         ]);
 
+        //* debug local
+        $champs=[];
+        $joueur=[];
+        //*/
         echo $twig->render('admin/importation-selection.html.twig', 
                                     ['champs' => $champs,
-                                    'joueurs' => $joueur);
+                                    'joueurs' => $joueur]);
 
     }
 }
