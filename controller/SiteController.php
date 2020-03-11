@@ -30,7 +30,6 @@ class SiteController
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
         ]);
-
         echo $twig->render('accueil.html.twig');
     }
 
@@ -89,7 +88,8 @@ class SiteController
                         
                     }
 
-            
+            echo $twig->render('alladresse.html.twig', 
+            ['adresses' => $adresses]);
             //readfile($_FILES['dataFile']['tmp_name']);
          } else {
 
