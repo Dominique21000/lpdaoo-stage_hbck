@@ -1,6 +1,6 @@
 <?php
 require ('controller/SiteController.php');
-
+require_once 'controller/UtilisateurController.php';
 
 $rub = "";
 if (isset($_GET['rub'])) {
@@ -13,11 +13,11 @@ switch ($rub) {
         break;
 
     case "importation":
-        SiteController::importation($_POST, $_FILES);
+        UtilisateurController::importation($_POST, $_FILES);
         break;
 
     case "admin-trt-fichier":
-        SiteController::trtFichier($_POST, $_FILES);
+        UtilisateurController::trtFichier($_POST, $_FILES);
         break;
 
     default:

@@ -15,45 +15,10 @@ class FFHB{
         // on ferme
         $xlsx= null;
 
-        //nb_licencies = count($data)-1;
-        
-    /*    $champs = array (
-            ':num_structure' => 'Num_structure',
-            ':nom' => 'Nom',
-            ':prenom' => 'Prenom',
-            ':sexe' => 'Sexe',
-            ':numro_licence' => 'Numero Licence',
-            ':mention' => 'Mention',
-            ':date_naissance' => 'Née le',
-            ':email' => 'email',
-            ':rue' => 'rue',
-            ':cp' => 'CP',
-            ':ville' => 'ville',
-            ':tel_portable' => 'portable',
-            ':tel_domicile' => 'domicile',
-            ':tel_bureau' => 'bureau',
-            ':tel_responsable_legal_1' => 'responsable_legal_1',
-            ':tel_responsable_legal_2' => 'responsable_legal_2',
-            ':num_appt' => 'num_appt',
-            ':residence' => 'residence',
-            ':lieu_dit' => 'lieu_dit',
-            ':offreCom' => 'OffreCom'
-        );
-        */
-
-
-        //echo "strftime : " .strftime("Y",$data[1][6]);
-
-        //echo "count : " . count($data);
-        
         $joueurs = null;
         
         for ($cpt_joueur = 1; $cpt_joueur < count($data); $cpt_joueur ++){
-            //echo "date naissance : " . $data[$cpt_joueur][6] ."<br>";
-            //echo "date : " . $data[$cpt_joueur][6] ."<br>";
-            
             $date_array = (($data[$cpt_joueur][6])-25569) * 86400;
-            //echo "date ok ? " . $date_ok."<br>";
             $annee= getdate($date_array)['year']; 
             $mois= getdate($date_array)['mon']; 
             $jour = getdate($date_array)['mday']; 
@@ -84,23 +49,9 @@ class FFHB{
             );
             $joueurs [$cpt_joueur] = $joueur;
             // echo $joueur[':prenom'] . " - " . $joueur[':nom'];
-
-            $data = array(
-                ':email'=>$data[$cpt_joueur][7],
-            );
-
-            var_dump($data);
-            // requête à la base
-            $db = new Database();
-            $o_conn = $db->makeConnect();
-            $ub = new UtilisateurBase();
-            $ub_data = $ub->getUtilisateur($o_conn, $data);
-            var_dump($ub_data);
-
-
         }        
-       //$joueur = [];
-       //var_dump($joueurs);
+       
+        //var_dump($joueurs);
         return $joueurs;
     }
 }
