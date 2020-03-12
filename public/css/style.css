@@ -39,17 +39,3 @@ footer{
     background-color: goldenrod;
     font-weight: bold;
 }
-
-.bordRouge{
-    border: red solid 1px;
-}
-
-.row{
-    margin-left: -10px;
-    margin-right: -10px;
-}
-
-.no-padding > [class*='col-'] {
-    padding-right:0;
-    padding-left:0;
-    }

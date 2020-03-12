@@ -1,71 +1,9 @@
 {% extends 'layout.html.twig' %}
 
-{%block title%}Administration : Import de données{%endblock%}
+{%block title%}{%endblock%}
+
 
 {%block content%}
 
-{% if traitement == "importation" %}
-    {% if resultat == "ok"%}
-    <div class="row no-padding">
-        <div class="col-lg-12">
-            <h1>Administration : Importation des données</h1>
-            L'importaton s'est pas correctement déroulé.<br/>
-            Il y avait des données de {{ nb_licencies }} licenciés dans ce fichier.<br>
-            <br>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                    <th>Numéro de structure</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Sexe</th>
-                    <th>Numéro de licence</th>
-                    <th>Date de naissance</th>
-                    <th>Email</th>
-                    <th>Adresse</th>
-                    <th>Code Postale</th>
-                    <th>Ville</th>
-                    <th>N° portable</th>
-                    <th>N° domicile</th>
-                    <th>N° bureau</th>
-                    <th>N° du responsable légal 1</th>
-                    <th>N° du responsable légal 2</th>
-                    <th>num_appt</th>
-                    <th>Résidence</th>
-                    <th>Lieu-dit</th>
-                    <th>OffreCom</th>
-                </tr>
-                </thead>
-                <tbody>
-                <h2>Données du fichier</h2>
-                {% for joueur in joueurs %}
-                <tr>
-                    <td>{{ joueur.num_structure }}</td>
-                    <td>{{ joueur.prenom}}</td>
-                    <td>{{ joueur.nom}}</td>
-                    <td>{{ joueur.sexe}}</td>
-                    <td>{{ joueur.numero_licence }}</td>
-                    <td>{{ joueur.date_naissance|date("d-m-Y") }}</td>
-                    <td>{{ joueur.email }}</td>
-                    <td>{{ joueur.rue }}</td>
-                    <td>{{ joueur.cp }}</td>
-                    <td>{{ joueur.ville }}</td>
-                    <td>{{ joueur.tel_portable }}</td>
-                    <td>{{ joueur.tel_domicile }}</td>
-                    <td>{{ joueur.tel_bureau }}</td>
-                    <td>{{ joueur.tel_responsable_legal_1 }}</td>
-                    <td>{{ joueur.tel_responsable_legal_2 }}</td>
-                    <td>{{ joueur.num_appt }}</td>
-                    <td>{{ joueur.residence }}</td>
-                    <td>{{ joueur.lieu_dit }}</td>
-                    <td>{{ joueur.offreCom }}</td>
-                </tr>
-                {%endfor %}
-            </tbody>
-            </table>
-        
-            Données de la base : <br>
-        </div>
-    {% endif %}
-{% endif %}
-{% endblock %}
+
+{%endblock}
