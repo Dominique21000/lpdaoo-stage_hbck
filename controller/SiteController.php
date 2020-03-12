@@ -24,4 +24,14 @@ class SiteController
 
         echo $twig->render('accueil.html.twig');
     }
+
+    /* affichage la page d'accueil du site */
+    public static function connexion(){
+        $loader = new \Twig\Loader\FilesystemLoader('view');
+        $twig = new \Twig\Environment($loader, [
+            'cache' => false,
+        ]);
+
+        echo $twig->render('connexion.html.twig');
+    }
 }

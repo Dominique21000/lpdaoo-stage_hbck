@@ -1,4 +1,7 @@
 <?php
+require_once 'model/Database.php';
+require_once 'model/UtilisateurBase.php';
+
 class UtilisateurController{
     /** affichage du formulaire de l'importation des données */
     public static function importation($tabPost, $tabFile){
@@ -27,7 +30,7 @@ class UtilisateurController{
             $date_export = substr($sheets[1],0,10);
             
             // move du fichier
-            $destination = $_SERVER['DOCUMENT_ROOT'] . $monAdresse ."/".$date_export ."--data.xlsx";
+            $destination = $_SERVER['DOCUMENT_ROOT'] . $monAdresse .$date_export ."--data.xlsx";
             //echo "origin : " . $origin ."<br>";
             //echo "destin : " . $destination ."<br>";
             //if (copy( $origin, $destination)){
@@ -53,7 +56,7 @@ class UtilisateurController{
                     'cache' => false,
                 ]);
 
-                
+                var_dump($fichier_joueurs);
                 echo $twig->render('admin/resultat-import.html.twig', 
                                             ["traitement" => "importation",
                                             "resultat" => "ok",
@@ -76,7 +79,7 @@ class UtilisateurController{
                             'cache' => false,
                          ]);
 
-            echo $twig->render('admin/resultat.html.twig',
+            echo $twig->render('admin/resultat-import.html.twig',
                     ["traitement"=> "importation",
                     'resultat' => "ko"]);
          }
