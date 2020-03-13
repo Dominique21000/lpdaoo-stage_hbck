@@ -10,31 +10,39 @@ if (isset($_GET['rub'])) {
 
 switch ($rub) {
     case "accueil":
-        SiteController::accueil();
+        SiteController::accueil($_GET);
         break;
 
     case "connexion":
-        SiteController::connexion();
+        SiteController::connexion($_GET);
+        break;
+
+    case "matchs":
+        MatchController::displayMatchs($_GET);
         break;
 
     case "matchs-recents":
-        MatchController::displayRecentMatchs();
+        MatchController::displayRecentMatchs($_GET);
         break;
 
     case "matchs-a-venir":
-        MatchController::displayFutursMatchs();
+        MatchController::displayFutursMatchs($_GET);
+        break;
+
+    case "aide":
+        SiteController::aide($_GET);
         break;
 
     case "importation":
-        UtilisateurController::importation($_POST, $_FILES);
+        UtilisateurController::importation($_GET, $_POST, $_FILES);
         break;
 
     case "admin-trt-fichier":
-        UtilisateurController::trtFichier($_POST, $_FILES);
+        UtilisateurController::trtFichier($_GET,$_POST, $_FILES);
         break;
 
     default:
-        SiteController::index();
+        SiteController::accueil();
         break;
 }
 
