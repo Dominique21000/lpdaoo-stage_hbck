@@ -4,13 +4,15 @@ require_once 'model/UtilisateurBase.php';
 
 class UtilisateurController{
     /** affichage du formulaire de l'importation des données */
-    public static function importation($tabPost, $tabFile){
+    public static function importation($tabGET,$tabPost, $tabFile){
         $loader = new \Twig\Loader\FilesystemLoader('view');
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
         ]);
 
-        echo $twig->render('admin/importation.html.twig');
+        echo $twig->render('admin/importation.html.twig',
+                                ['rub' => $tabGET['rub']]
+                            );
     }
 
     /** traitement du fichier */
@@ -46,9 +48,8 @@ class UtilisateurController{
                 $ub = new UtilisateurBase();
 
                 $ub_data = $ub->getUtilisateurs($o_conn);
-                print("ubdata : ");
-                var_dump($ub_data);
-                
+                //print("ubdata : ");
+                                
                
                 // envoi du résultat à la vue
                 $loader = new \Twig\Loader\FilesystemLoader('view');
@@ -56,16 +57,30 @@ class UtilisateurController{
                     'cache' => false,
                 ]);
 
-                var_dump($fichier_joueurs);
+
+                // on recherche les élements insérer
+                $tabNew = FFHB::getElementsNouveaux($fichier_joueurs, $ub_data);
+                echo "-----";
+                    
+                // on recherches les élements déjà présents
+                $tabModif = FFHB::getElementsPresents($fichier_joueurs, $ub_data);
+                var_dump($tabModif);
+
+                
+                //var_dump($ub_data);
+                //echo $ub_data[0]["uti_email"];
+                
+                /*
                 echo $twig->render('admin/resultat-import.html.twig', 
                                             ["traitement" => "importation",
                                             "resultat" => "ok",
                                             "nb_licencies" => $nb_licencies,
-                                            "joueurs"=> $fichier_joueurs,
+                                            "fichier_joueurs"=> $fichier_joueurs,
                                             "ub_data"=>$ub_data,
                                             ]
                                 );
-           }
+                */              
+            }
 
             
             //readfile($_FILES['dataFile']['tmp_name']);
@@ -81,7 +96,8 @@ class UtilisateurController{
 
             echo $twig->render('admin/resultat-import.html.twig',
                     ["traitement"=> "importation",
-                    'resultat' => "ko"]);
+                    'resultat' => "ko"]
+                );
          }
     }
 }

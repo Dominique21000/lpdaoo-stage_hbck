@@ -1,13 +1,14 @@
 <?php
 require('XLSXReader.php');
 
-class FFHB{
+class FFHBModel 
+{
     /** parse the fichier xls */
     public static function importation($nomFichier){
         
         $xlsx = new XLSXReader($nomFichier);
         $sheets = $xlsx->getSheetNames();
-        echo "feuille : " . $sheets[1];
+        //echo "feuille : " . $sheets[1];
         $data = $xlsx->getSheetData($sheets[1]);
         // on ferme
         $xlsx= null;
@@ -51,5 +52,93 @@ class FFHB{
         //var_dump($joueurs);
         return $joueurs;
     }
-}
 
+    /** function getElementsnouveaux , dont le principe est :
+     * - parcours d'un fichier de licenciés
+     * - pour chaque licenciés, on vérifie s'il est présent dans la base
+     * => on crée un tableau des licencies qui ne sont pas dans la base 
+     */
+    public static function getElementsNouveaux($licencies, $utilisateur){
+        $tabNouv = null;
+        $cptNouv = 0;
+        /* on part à 1 pour le fichier des licenciés parce que 
+            la première ligne est une ligne d'en-tête */ 
+        //var_dump($licencies);
+        for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
+            // parcours du tableau de licencié
+            $present = false;
+            echo "cptlic" .$cptLic . "<br>";
+            for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
+                // parcours des utilisateurs
+                echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
+                echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
+                
+                if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
+                    // ça matche
+                    echo "present<br>";
+                    $present = true;      
+                }
+                else{
+                    // nouveau
+                    echo "pas présent<br>";
+                }
+                echo "utilisateur suivant<br>";
+            }
+            
+            // on regarde si ça a matché
+            if ($present == false){
+                echo "<b>pas présent => nouveau => on ajoute</b><br>";
+                $tabNouv[$cptNouv] = $licencies[$cptLic];
+                $cptNouv +=1;
+            }
+            
+        }
+        var_dump($tabNouv);
+        return $tabNouv;
+        
+    }    
+
+    /** function getElementsPresents le principe est :
+     * - parcours d'un fichier de licenciés
+     * - pour chaque licenciés, on vérifie s'il est présent dans la base
+     * => on crée un tableau des licencies qui sont déjàs présent dans la base.
+     */
+    public static function getElementsPresents($licencies, $utilisateur){
+        $tabExiste = null;
+        $cptExiste = 0;
+        /* on part à 1 pour le fichier des licenciés parce que 
+            la première ligne est une ligne d'en-tête */ 
+        //var_dump($licencies);
+        for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
+            // parcours du tableau de licencié
+            $present = false;
+            echo "cptlic" .$cptLic . "<br>";
+            for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
+                // parcours des utilisateurs
+                echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
+                echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
+                
+                if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
+                    // ça matche
+                    echo "present<br>";
+                    $present = true;      
+                }
+                else{
+                    // nouveau
+                    echo "pas présent<br>";
+                }
+                echo "utilisateur suivant<br>";
+            }
+            
+            // on regarde si ça a matché
+            if ($present == true){
+                echo "<b>présent => à mettre à jour => on ajoute</b><br>";
+                $tabExiste[$cptExiste] = $licencies[$cptLic];
+                $cptExiste +=1;
+            }
+            
+        }
+        //var_dump($tabExiste);
+        return $tabExiste;        
+    }    
+}
