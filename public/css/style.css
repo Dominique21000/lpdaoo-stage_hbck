@@ -1,5 +1,9 @@
-body{
-    background-color: goldenrod;
+body, html{
+   
+    position: relative;
+    margin:0;
+    padding: 0;
+    height:95%; 
 }
 
 .ecr_accueil{
@@ -29,14 +33,32 @@ body{
     height: 300px;
 }
 
+
+.absentes{
+    overflow: scroll;
+    width:90%;
+    height:400px;
+}
+
+.content{
+    height:100%;
+    min-height:100%;
+}
+
+.container{
+    margin: 0 auto;
+    margin-top:auto;
+}
+
 footer{
-    position: fixed;
-    left:0px;
-    top:95%;
-    width:100%;
+
     text-align: center;
-    height: 5%;
     background-color: goldenrod;
     font-weight: bold;
-    margin-top: 10px;
+
+    border: blue solid 1px;
+    
+    bottom:0px;
+    height:5%;
+    width:100%;
 }

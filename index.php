@@ -40,9 +40,17 @@ switch ($rub) {
     case "admin-trt-fichier":
         UtilisateurController::trtFichier($_GET,$_POST, $_FILES);
         break;
+    
+    case "ajout-nveau-bdd":
+        UtilisateurController::creationNouveauBase($_POST);
+        break;
+
 
     default:
-        SiteController::accueil();
+        $tabGET = array(
+            'rub' => "accueil",
+        );
+        SiteController::accueil($tabGET);
         break;
 }
 

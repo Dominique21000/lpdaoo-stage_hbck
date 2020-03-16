@@ -3,87 +3,106 @@
 {%block title%}Administration : Import de données{%endblock%}
 
 {%block content%}
-    {% if resultat == "ok"%}
+    {% if resultat == "ok" %}
     <div class="row no-padding">
         <div class="col-lg-12">
             <h1>Administration : Importation des données</h1>
-            Le téléchargement du fichie s'est correctement déroulé.<br/>
+            Le téléchargement du fichier s'est correctement déroulé.<br/>
             Il y avait des données de {{ nb_licencies }} licenciés dans ce fichier.<br>
+            Dont 
+            <ul>
+                <li>{{nouveaux|length}} personnes absentes de la base</li>
+                <li>{{a_modif|length}} personnes déjà présentes dans la base</li>
+            </ul>
             <br>
-            <table class="table table-striped">
-                 <thead>
-                    <tr>
-                        <th>Numéro de structure</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Sexe</th>
-                        <th>Numéro de licence</th>
-                        <th>Date de naissance</th>
-                        <th>Email</th>
-                        <th>Adresse</th>
-                        <th>Code Postale</th>
-                        <th>Ville</th>
-                        <th>N° portable</th>
-                        <th>N° domicile</th>
-                        <th>N° bureau</th>
-                        <th>N° du responsable légal 1</th>
-                        <th>N° du responsable légal 2</th>
-                        <th>num_appt</th>
-                        <th>Résidence</th>
-                        <th>Lieu-dit</th>
-                        <th>OffreCom</th>
-                    </tr>
-                    <tr>
-                        <td colspan="19"><h3>Données du fichier</h3></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        
-                         {%  set tab_db = ub_data  %}
-                        
-                    {% for joueur in joueurs %}
-                        <td>
-                        tab : {{ tab_db[0]["uti_email"] }}-
-                        {{ joueur.num_structure }}</td>
-                        <td>{{ joueur.prenom}}</td>
-                        <td>{{ joueur.nom}}</td>
-                        <td>{{ joueur.sexe}}</td>
-                        <td>{{ joueur.numero_licence }}</td>
-                        <td>{{ joueur.date_naissance|date("d-m-Y") }}</td>
-                        <td>
-                            {{ joueur.email }}
-                            {{ ab_db["uti_email"]}}
-                            {%if joueur.email in tab_db["uti_email"] %}
-                                présent
-                            {% endif %}
-                        
-                        </td>
-                        <td>{{ joueur.rue }}</td>
-                        <td>{{ joueur.cp }}</td>
-                        <td>{{ joueur.ville }}</td>
-                        <td>{{ joueur.tel_portable }}</td>
-                        <td>{{ joueur.tel_domicile }}</td>
-                        <td>{{ joueur.tel_bureau }}</td>
-                        <td>{{ joueur.tel_responsable_legal_1 }}</td>
-                        <td>{{ joueur.tel_responsable_legal_2 }}</td>
-                        <td>{{ joueur.num_appt }}</td>
-                        <td>{{ joueur.residence }}</td>
-                        <td>{{ joueur.lieu_dit }}</td>
-                        <td>{{ joueur.offreCom }}</td>
-                    </tr>
-                    
-                     {%endfor%}
-                <tbody>
-                <thead>
-                    <tr>
-                        <td colspan="19"><h3>Données de la base</h3></td>
-                    </tr>             
-
-                   
-                </thead>
-            </table>
+            <h2>Personnes absentes de la base de données : </h2>
+            <div class="row no-padding">
+                <div class="col-lg-12">
+                    <form action="index.php?rub=ajout-nveau-bdd" method="post">
+                    <div class="absentes">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <!-- <th>Origine</th>-->
+                                    <th>Numéro de structure</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Sexe</th>
+                                    <th>Numéro de licence</th>
+                                    <th>Date de naissance</th>
+                                    <th>Email</th>
+                                    <th>Adresse</th>
+                                    <th>Code Postale</th>
+                                    <th>Ville</th>
+                                    <th>N° portable</th>
+                                    <th>N° domicile</th>
+                                    <th>N° bureau</th>
+                                    <th>N° du responsable légal 1</th>
+                                    <th>N° du responsable légal 2</th>
+                                    <th>num_appt</th>
+                                    <th>Résidence</th>
+                                    <th>Lieu-dit</th>
+                                    <th>OffreCom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set cpt_lic = 1 %}
+                                {% for nouveau in nouveaux %}
+                                <tr>
+                                    <!--<td>Fichier</td>-->
+                                    <td>
+                                    <input type="hidden" name="{{cpt_lic}}_num_structure" value="{{ nouveau.num_structure }}">
+                                    {{ nouveau.num_structure }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_prenom" value="{{nouveau.prenom}}">
+                                    {{ nouveau.prenom}}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_nom" value="{{nouveau.nom}}">
+                                    {{ nouveau.nom}}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_sexe" value="{{nouveau.sexe}}">
+                                    {{ nouveau.sexe}}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_no_licence" value="{{nouveau.numero_licence}}">
+                                    {{ nouveau.numero_licence }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_date_naissance" value="{{nouveau.date_naissance}}">
+                                    {{ nouveau.date_naissance|date("d-m-Y") }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_email" value="{{nouveau.email}}">
+                                    {{ nouveau.email }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_rue" value="{{nouveau.rue}}">
+                                    {{ nouveau.rue }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_cp" value="{{nouveau.cp}}">
+                                    {{ nouveau.cp }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_ville" value="{{nouveau.ville}}">
+                                    {{ nouveau.ville }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_tel_portable" value="{{nouveau.tel_portable}}">
+                                    {{ nouveau.tel_portable }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_tel_domicile" value="{{nouveau.tel_domicile}}">
+                                    {{ nouveau.tel_domicile }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_tel_bureau" value="{{nouveau.tel_bureau}}">
+                                    {{ nouveau.tel_bureau }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_1" value="{{nouveau.tel_responsable_legal_1}}">                                    
+                                    {{ nouveau.tel_responsable_legal_1 }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_2" value="{{nouveau.tel_responsable_legal_2}}">
+                                    {{ nouveau.tel_responsable_legal_2 }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_num_appt" value="{{nouveau.num_appt}}">
+                                    {{ nouveau.num_appt }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_residence" value="{{nouveau.residence}}">
+                                    {{ nouveau.residence }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_lieu_dit" value="{{ nouveau.lieu_dit }}">
+                                    {{ nouveau.lieu_dit }}</td>
+                                    <td><input type="hidden" name="{{cpt_lic}}_offrecom" value="{{nouveau.offreCom}}">
+                                    {{ nouveau.offreCom }}</td>
+                                </tr>
+                                {% set cpt_lic = cpt_lic + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>  
+                    <br>
+                    <button class="btn btn-success" type="submit">Ajouter</button>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+    
     {% else %}
         Il y a eu un soucis durant l'importation.
 

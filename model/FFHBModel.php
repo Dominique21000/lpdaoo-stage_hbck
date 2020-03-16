@@ -42,7 +42,7 @@ class FFHBModel
                 'tel_responsable_legal_2' => $data[$cpt_joueur][15],
                 'num_appt' => $data[$cpt_joueur][16],
                 'residence' => $data[$cpt_joueur][17],
-                'lieu-dit' => $data[$cpt_joueur][18],
+                'lieu_dit' => $data[$cpt_joueur][18],
                 'offreCom' => $data[$cpt_joueur][19]
             );
             $joueurs [$cpt_joueur] = $joueur;
@@ -67,33 +67,32 @@ class FFHBModel
         for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
             // parcours du tableau de licencié
             $present = false;
-            echo "cptlic" .$cptLic . "<br>";
+            //echo "cptlic" .$cptLic . "<br>";
             for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
                 // parcours des utilisateurs
-                echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
-                echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
+                //echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
+                //echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
                 
                 if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
                     // ça matche
-                    echo "present<br>";
+                    //echo "present<br>";
                     $present = true;      
                 }
                 else{
                     // nouveau
-                    echo "pas présent<br>";
+                    //echo "pas présent<br>";
                 }
-                echo "utilisateur suivant<br>";
+                //echo "utilisateur suivant<br>";
             }
             
             // on regarde si ça a matché
             if ($present == false){
-                echo "<b>pas présent => nouveau => on ajoute</b><br>";
+                //echo "<b>pas présent => nouveau => on ajoute</b><br>";
                 $tabNouv[$cptNouv] = $licencies[$cptLic];
                 $cptNouv +=1;
             }
-            
         }
-        var_dump($tabNouv);
+        //var_dump($tabNouv);
         return $tabNouv;
         
     }    
@@ -112,27 +111,27 @@ class FFHBModel
         for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
             // parcours du tableau de licencié
             $present = false;
-            echo "cptlic" .$cptLic . "<br>";
+            //echo "cptlic" .$cptLic . "<br>";
             for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
                 // parcours des utilisateurs
-                echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
-                echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
+                //echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
+                //echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
                 
                 if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
                     // ça matche
-                    echo "present<br>";
+                    //echo "present<br>";
                     $present = true;      
                 }
                 else{
                     // nouveau
-                    echo "pas présent<br>";
+                    //echo "pas présent<br>";
                 }
-                echo "utilisateur suivant<br>";
+                //echo "utilisateur suivant<br>";
             }
             
             // on regarde si ça a matché
             if ($present == true){
-                echo "<b>présent => à mettre à jour => on ajoute</b><br>";
+                //echo "<b>présent => à mettre à jour => on ajoute</b><br>";
                 $tabExiste[$cptExiste] = $licencies[$cptLic];
                 $cptExiste +=1;
             }
