@@ -16,22 +16,35 @@ class SiteController
     }
 
     /* affichage la page d'accueil du site */
-    public static function accueil(){
+    public static function accueil($tabGET){
         $loader = new \Twig\Loader\FilesystemLoader('view');
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
         ]);
 
-        echo $twig->render('accueil.html.twig');
+        echo $twig->render('matchs.html.twig',
+                ['rub' => $tabGET['rub']]);
+    }
+
+    /* page de listage des functionnalités du site */
+    public static function aide($tabGET){
+        $loader = new \Twig\Loader\FilesystemLoader('view');
+        $twig = new \Twig\Environment($loader, [
+            'cache' => false,
+        ]);
+
+        echo $twig->render('aide.html.twig', 
+                                    ['rub' => $tabGET['rub']]);
     }
 
     /* affichage la page d'accueil du site */
-    public static function connexion(){
+    public static function connexion($tabGET){
         $loader = new \Twig\Loader\FilesystemLoader('view');
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
         ]);
 
-        echo $twig->render('connexion.html.twig');
+        echo $twig->render('connexion.html.twig',
+                            ['rub' => $tabGET['rub']]);
     }
 }

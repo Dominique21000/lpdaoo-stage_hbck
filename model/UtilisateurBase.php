@@ -7,7 +7,6 @@ class UtilisateurBase{
         $sql .= " WHERE uti_email = :email";
         $stmt = $db->prepare($sql);
         $stmt->execute($data);
-        //var_dump($stmt);
         return $res =$stmt->fetchall(); 
     }
 
@@ -32,6 +31,7 @@ class UtilisateurBase{
         $sql .= "uti_nom, ";
         $sql .= "uti_prenom, ";
         $sql .= "uti_sexe, ";
+        $sql .= "uti_numero_licence, ";
         $sql .= "uti_mention, ";
         $sql .= "uti_date_naissance, ";
         $sql .= "uti_email, ";
@@ -39,7 +39,7 @@ class UtilisateurBase{
         $sql .= "uti_adresse, ";
         $sql .= "uti_cp, ";
         $sql .= "uti_ville, ";
-        $sql .= "uti_lieu-dit, ";
+        $sql .= "uti_lieu_dit, ";
         $sql .= "uti_tel_portable, ";
         $sql .= "uti_tel_bureau, ";
         $sql .= "uti_tel_resp_legal_1, ";
@@ -48,10 +48,10 @@ class UtilisateurBase{
         $sql .= "uti_residence, ";
         $sql .= "uti_offrecom ) ";
         $sql .= " VALUES ( ";
-        $sql .= " null, ";
+        $sql .= "NULL, ";
         $sql .= "1,";
         $sql .= "1,";
-        $sql .= "3423453M, ";
+        $sql .= ":num_structure, ";
         $sql .= ":nom, ";
         $sql .= ":prenom, ";
         $sql .= ":sexe, ";
@@ -59,21 +59,20 @@ class UtilisateurBase{
         $sql .= ":mention, ";
         $sql .= ":date_naissance, ";
         $sql .= ":email, ";
-        $sql .= "'a-fixer', ";
+        $sql .= "'a-fixer',";
         $sql .= ":adresse, ";
         $sql .= ":cp, ";
         $sql .= ":ville, ";
-        $sql .= ":lieu-dit, ";
+        $sql .= ":lieu_dit, ";
         $sql .= ":tel_portable, ";
         $sql .= ":tel_bureau, ";
         $sql .= ":tel_resp_legal_1, ";
         $sql .= ":tel_resp_legal_2, ";
         $sql .= ":num_appt, ";
         $sql .= ":residence, ";
-        $sql .= ":offrecom, ";
+        $sql .= ":offrecom);";
         $stmt = $db->prepare($sql);
-        $stmt = $db->execute($data);
-        echo "stmt : " . $stmt;
-
+        $res = $stmt->execute($data);
+        return $res;
     }
 }

@@ -51,13 +51,9 @@ body, html{
 }
 
 footer{
-
     text-align: center;
     background-color: goldenrod;
     font-weight: bold;
-
-    border: blue solid 1px;
-    
     bottom:0px;
     height:5%;
     width:100%;

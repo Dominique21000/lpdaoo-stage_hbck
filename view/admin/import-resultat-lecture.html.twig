@@ -3,7 +3,7 @@
 {%block title%}Administration : Import de données{%endblock%}
 
 {%block content%}
-    {% if resultat == "ok" %}
+    {% if resultat == true %}
     <div class="row no-padding">
         <div class="col-lg-12">
             <h1>Administration : Importation des données</h1>
@@ -15,15 +15,16 @@
                 <li>{{a_modif|length}} personnes déjà présentes dans la base</li>
             </ul>
             <br>
+            {% if nouveaux|length > 0 %}
             <h2>Personnes absentes de la base de données : </h2>
             <div class="row no-padding">
                 <div class="col-lg-12">
                     <form action="index.php?rub=ajout-nveau-bdd" method="post">
+                    <input type="hidden" name="destination" value="{{destination}}">
                     <div class="absentes">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                <!-- <th>Origine</th>-->
                                     <th>Numéro de structure</th>
                                     <th>Prénom</th>
                                     <th>Nom</th>
@@ -49,57 +50,78 @@
                                 {% set cpt_lic = 1 %}
                                 {% for nouveau in nouveaux %}
                                 <tr>
-                                    <!--<td>Fichier</td>-->
+                                  
                                     <td>
-                                    <input type="hidden" name="{{cpt_lic}}_num_structure" value="{{ nouveau.num_structure }}">
+                                   <!-- <input type="hidden" name="{{cpt_lic}}_num_structure" value="{{ nouveau.num_structure }}"> -->
                                     {{ nouveau.num_structure }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_prenom" value="{{nouveau.prenom}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_prenom" value="{{nouveau.prenom}}"> -->
                                     {{ nouveau.prenom}}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_nom" value="{{nouveau.nom}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_nom" value="{{nouveau.nom}}">-->
                                     {{ nouveau.nom}}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_sexe" value="{{nouveau.sexe}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_sexe" value="{{nouveau.sexe}}">-->
                                     {{ nouveau.sexe}}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_no_licence" value="{{nouveau.numero_licence}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_no_licence" value="{{nouveau.numero_licence}}"> -->
                                     {{ nouveau.numero_licence }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_date_naissance" value="{{nouveau.date_naissance}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_date_naissance" value="{{nouveau.date_naissance}}">-->
                                     {{ nouveau.date_naissance|date("d-m-Y") }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_email" value="{{nouveau.email}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_email" value="{{nouveau.email}}">-->
                                     {{ nouveau.email }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_rue" value="{{nouveau.rue}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_rue" value="{{nouveau.rue}}">-->
                                     {{ nouveau.rue }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_cp" value="{{nouveau.cp}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_cp" value="{{nouveau.cp}}">-->
                                     {{ nouveau.cp }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_ville" value="{{nouveau.ville}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_ville" value="{{nouveau.ville}}">-->
                                     {{ nouveau.ville }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_tel_portable" value="{{nouveau.tel_portable}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_tel_portable" value="{{nouveau.tel_portable}}">-->
                                     {{ nouveau.tel_portable }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_tel_domicile" value="{{nouveau.tel_domicile}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_tel_domicile" value="{{nouveau.tel_domicile}}">-->
                                     {{ nouveau.tel_domicile }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_tel_bureau" value="{{nouveau.tel_bureau}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_tel_bureau" value="{{nouveau.tel_bureau}}">-->
                                     {{ nouveau.tel_bureau }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_1" value="{{nouveau.tel_responsable_legal_1}}">                                    
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_1" value="{{nouveau.tel_responsable_legal_1}}">-->                   
                                     {{ nouveau.tel_responsable_legal_1 }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_2" value="{{nouveau.tel_responsable_legal_2}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_tel_responsable_legal_2" value="{{nouveau.tel_responsable_legal_2}}">-->
                                     {{ nouveau.tel_responsable_legal_2 }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_num_appt" value="{{nouveau.num_appt}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_num_appt" value="{{nouveau.num_appt}}">-->
                                     {{ nouveau.num_appt }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_residence" value="{{nouveau.residence}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_residence" value="{{nouveau.residence}}">-->
                                     {{ nouveau.residence }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_lieu_dit" value="{{ nouveau.lieu_dit }}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_lieu_dit" value="{{ nouveau.lieu_dit }}">-->
                                     {{ nouveau.lieu_dit }}</td>
-                                    <td><input type="hidden" name="{{cpt_lic}}_offrecom" value="{{nouveau.offreCom}}">
+                                    <td>
+                                    <!--<input type="hidden" name="{{cpt_lic}}_offrecom" value="{{nouveau.offreCom}}">-->
                                     {{ nouveau.offreCom }}</td>
                                 </tr>
                                 {% set cpt_lic = cpt_lic + 1 %}
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div>  
+                    </div>
+                  
                     <br>
-                    <button class="btn btn-success" type="submit">Ajouter</button>
+                    <button class="btn btn-success" type="submit">Importer</button>
+                
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     

@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration - Upload{% endblock %}
+
+{%block content%}
+    <h1>Importation des nouveaux licenciés</h1>
+    {% if resultat == true %}
+        L'importation des nouveaux contacts s'est effectué avec succès. 
+    {% else %}
+        Il y a eu un problème durant l'importation des nouveaux licenciés.
+    {% endif %}
+{%endblock%}

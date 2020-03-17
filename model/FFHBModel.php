@@ -8,11 +8,8 @@ class FFHBModel
         
         $xlsx = new XLSXReader($nomFichier);
         $sheets = $xlsx->getSheetNames();
-        //echo "feuille : " . $sheets[1];
         $data = $xlsx->getSheetData($sheets[1]);
-        // on ferme
         $xlsx= null;
-
         $joueurs = null;
         
         for ($cpt_joueur = 1; $cpt_joueur < count($data); $cpt_joueur ++){
@@ -30,7 +27,7 @@ class FFHBModel
                 'sexe' => $data[$cpt_joueur][3],
                 'numero_licence' => $data[$cpt_joueur][4],
                 'mention' => $data[$cpt_joueur][5],
-                'date_naissance' => $data[$cpt_joueur][6],
+                'date_naissance' => $date_naissance,
                 'email' => $data[$cpt_joueur][7],
                 'rue' => $data[$cpt_joueur][8],
                 'cp' => $data[$cpt_joueur][9],
@@ -46,7 +43,6 @@ class FFHBModel
                 'offreCom' => $data[$cpt_joueur][19]
             );
             $joueurs [$cpt_joueur] = $joueur;
-            // echo $joueur[':prenom'] . " - " . $joueur[':nom'];
         }        
        
         //var_dump($joueurs);
@@ -54,43 +50,35 @@ class FFHBModel
     }
 
     /** function getElementsnouveaux , dont le principe est :
-     * - parcours d'un fichier de licenciés
-     * - pour chaque licenciés, on vérifie s'il est présent dans la base
-     * => on crée un tableau des licencies qui ne sont pas dans la base 
+     * @param licencies : fichier de licenciés à parcourir
+     * @param utilisteurs : liste des utilisateurs dans laquel on verifie la présente des licencies
+     * @return tabNouv : tableau des nouveaux licenciés
      */
-    public static function getElementsNouveaux($licencies, $utilisateur){
+    public static function getElementsNouveaux($licencies, $utilisateurs){
+        // var_dump($utilisateurs); -> ok
+        //var_dump($licencies); -> ok
         $tabNouv = null;
         $cptNouv = 0;
-        /* on part à 1 pour le fichier des licenciés parce que 
+        /*  on part à 1 pour le fichier des licenciés parce que 
             la première ligne est une ligne d'en-tête */ 
-        //var_dump($licencies);
         for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
             // parcours du tableau de licencié
             $present = false;
-            //echo "cptlic" .$cptLic . "<br>";
-            for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
-                // parcours des utilisateurs
-                //echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
-                //echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
-                
-                if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
-                    // ça matche
-                    //echo "present<br>";
+            for ($cptUtil = 0; $cptUtil < count($utilisateurs); $cptUtil++){
+                if ($licencies[$cptLic]['email'] == $utilisateurs[$cptUtil]['uti_email']){
+                    //echo "present";
                     $present = true;      
                 }
-                else{
-                    // nouveau
-                    //echo "pas présent<br>";
-                }
-                //echo "utilisateur suivant<br>";
             }
+            //echo "<br>";
             
             // on regarde si ça a matché
             if ($present == false){
-                //echo "<b>pas présent => nouveau => on ajoute</b><br>";
+                //echo "false => on ajoute";
                 $tabNouv[$cptNouv] = $licencies[$cptLic];
                 $cptNouv +=1;
             }
+            //echo "<br>";
         }
         //var_dump($tabNouv);
         return $tabNouv;
@@ -98,46 +86,29 @@ class FFHBModel
     }    
 
     /** function getElementsPresents le principe est :
-     * - parcours d'un fichier de licenciés
-     * - pour chaque licenciés, on vérifie s'il est présent dans la base
-     * => on crée un tableau des licencies qui sont déjàs présent dans la base.
+    * @param licencies : fichier de licenciés à parcourir
+     * @param utilisteurs : liste des utilisateurs dans laquel on verifie la présente des licencies
+     * @return tabModif : tableau des licenciés à mettre à jour
      */
-    public static function getElementsPresents($licencies, $utilisateur){
+    public static function getElementsPresents($licencies, $utilisateurs){
         $tabExiste = null;
         $cptExiste = 0;
         /* on part à 1 pour le fichier des licenciés parce que 
             la première ligne est une ligne d'en-tête */ 
-        //var_dump($licencies);
         for($cptLic = 1; $cptLic < count($licencies)+1 ; $cptLic++){
-            // parcours du tableau de licencié
             $present = false;
-            //echo "cptlic" .$cptLic . "<br>";
-            for ($cptUtil = 0; $cptUtil < count($utilisateur); $cptUtil++){
-                // parcours des utilisateurs
-                //echo "licencies - email : " . $licencies[$cptLic]["email"] ."<br>";
-                //echo "utilisateur - email : " . $utilisateur[$cptUtil][7] ." <br>";
-                
-                if ($licencies[$cptLic]['email'] == $utilisateur[$cptUtil]['uti_email']){
-                    // ça matche
-                    //echo "present<br>";
+            for ($cptUtil = 0; $cptUtil < count($utilisateurs); $cptUtil++){
+                if ($licencies[$cptLic]['email'] == $utilisateurs[$cptUtil]['uti_email']){
                     $present = true;      
                 }
-                else{
-                    // nouveau
-                    //echo "pas présent<br>";
-                }
-                //echo "utilisateur suivant<br>";
             }
             
             // on regarde si ça a matché
             if ($present == true){
-                //echo "<b>présent => à mettre à jour => on ajoute</b><br>";
                 $tabExiste[$cptExiste] = $licencies[$cptLic];
                 $cptExiste +=1;
             }
-            
         }
-        //var_dump($tabExiste);
         return $tabExiste;        
     }    
 }
