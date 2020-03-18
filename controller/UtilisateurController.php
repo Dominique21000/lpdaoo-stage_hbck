@@ -73,7 +73,7 @@ class UtilisateurController{
                                                 "nb_licencies" => $nb_licencies,
                                                 "fichier_joueurs"=> $fichier_joueurs,
                                                 "nouveaux"=>$tabNew,
-                                                "a_modif"=>$tabModif,
+                                                "modifs"=>$tabModif,
                                                 "ub_data"=>$ub_data,
                                                 "destination"=>$destination,
                                                 ]
@@ -88,7 +88,7 @@ class UtilisateurController{
                                 'cache' => false,
                             ]);
 
-                echo $twig->render('admin/import-resultat-lecturet.html.twig',
+                echo $twig->render('admin/import-resultat-lecture.html.twig',
                         ["traitement"=> "importation",
                         'resultat' => false]
                     );

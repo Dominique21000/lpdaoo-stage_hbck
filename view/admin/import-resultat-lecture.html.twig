@@ -12,16 +12,17 @@
             Dont 
             <ul>
                 <li>{{nouveaux|length}} personnes absentes de la base</li>
-                <li>{{a_modif|length}} personnes déjà présentes dans la base</li>
+                <li>{{modifs|length}} personnes déjà présentes dans la base</li>
             </ul>
             <br>
             {% if nouveaux|length > 0 %}
-            <h2>Personnes absentes de la base de données : </h2>
+            
             <div class="row no-padding">
                 <div class="col-lg-12">
+                <h2>Personnes absentes de la base de données : </h2>
                     <form action="index.php?rub=ajout-nveau-bdd" method="post">
                     <input type="hidden" name="destination" value="{{destination}}">
-                    <div class="absentes">
+                    <div class="absents">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -122,8 +123,100 @@
                 </div>
             </div>
             {% endif %}
+
+            {% if (modifs|length > 0) %}
+          
+            <div class="row no-padding">
+                <div class="col-lg-12">
+                    <h2>Licenciés du fichier déjà présents dans la base</h2>
+                    <form action="index.php?rub=mise-a-jour" method="post">
+                    <input type="hidden" name="destination" value="{{destination}}">
+                    <div id="deja-presents" class="deja-presents">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nméro de structure</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Sexe</th>
+                                    <th>Numéro de licence</th>
+                                    <th>Date de naissance</th>
+                                    <th>Email</th>
+                                    <th>Adresse</th>
+                                    <th>Code Postale</th>
+                                    <th>Ville</th>
+                                    <th>N° portable</th>
+                                    <th>N° domicile</th>
+                                    <th>N° bureau</th>
+                                    <th>N° du responsable légal 1</th>
+                                    <th>N° du responsable légal 2</th>
+                                    <th>num_appt</th>
+                                    <th>Résidence</th>
+                                    <th>Lieu-dit</th>
+                                    <th>OffreCom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        {% set cpt_elements = 0 %}
+                        {% for m in modifs %}
+                            <tr>
+                                <td><input type="text" name="{{cpt_elements}}_num_structure" value="{{ m.num_structure }}" size="10"></td>
+                                <td><input type="text" name="{{cpt_elements}}_prenom" value="{{ m.prenom }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_nom" value="{{ m.nom }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_sexe" value="{{ m.sexe }}" size="1"></td>
+                                <td><input type="text" name="{{cpt_elements}}_numero_licence" value="{{ m.numero_licence }}" size="20"></td>
+                                <td><input type="date" name="{{cpt_elements}}_date_naissance" value="{{ m.date_naissance|date("Y-m-d") }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_email" value="{{ m.email }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_rue" value="{{ m.rue }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_cp" value="{{ m.cp }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_ville" value="{{ m.ville }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_tel_portable" value="{{ m.tel_portable }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_tel_domicile" value="{{ m.tel_domicile }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_tel_bureau" value="{{ m.tel_bureau }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_tel_responsable_legal_1" value="{{ m.tel_resonsable_legal_1 }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_tel_responsable_legal_2" value="{{ m.tel_responsable_legal_2 }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_num_appt" value="{{ m.num_appt }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_residence" value="{{ m.residence }}"></td>
+                                <td><input type="text" name="{{cpt_elements}}_lieu_dit" value="{{ m.lieu_dit }}"></td>
+                                <td>
+                                    <input type="checkbox" name="{{cpt_elements}}_offrecom" {% if m.offreCom == "OUI" %} checked{% endif %}>
+                                </td>
+                            </tr>
+                            {% set cpt_elements = cpt_elements +1 %}
+                        {% endfor %}
+                        </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+                    <button class="btn btn-success" type="submit">Mettre à jour</button>
+                    </form>
+                </div>
+            </div>  
+
+             <script>
+        /*VERSION FACTORISEE*/
+const compare = (ids, asc) => (row1, row2) => {
+  const tdValue = (row, ids) => row.children[ids].textContent;
+  const tri = (v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+  return tri(tdValue(asc ? row1 : row2, ids), tdValue(asc ? row2 : row1, ids));
+};
+
+const tbody = document.querySelector('tbody');
+const thx = document.querySelectorAll('th');
+const trxb = tbody.querySelectorAll('tr');
+thx.forEach(th => th.addEventListener('click', () => {
+  console.log("clic");
+  let classe = Array.from(trxb).sort(compare(Array.from(thx).indexOf(th), this.asc = !this.asc));
+  classe.forEach(tr => tbody.appendChild(tr));
+}));
+    </script>
+            {% endif %}
+
         </div>
     </div>
+
+    
     
     {% else %}
         Il y a eu un soucis durant l'importation.

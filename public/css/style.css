@@ -34,9 +34,16 @@ body, html{
 }
 
 
-.absentes{
+.absents{
     overflow: scroll;
     width:90%;
+    height:400px;
+}
+
+
+.deja-presents{
+    overflow: scroll;
+    width:100%;
     height:400px;
 }
 
