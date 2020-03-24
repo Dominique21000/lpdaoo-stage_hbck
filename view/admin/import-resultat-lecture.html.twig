@@ -4,6 +4,7 @@
 
 {%block content%}
     {% if resultat == true %}
+        {% set deja_presents = comp_modifs|length %}
     <div class="row no-padding">
         <div class="col-lg-12">
             <h1>Administration : Importation des données</h1>
@@ -11,10 +12,13 @@
             Il y avait des données de {{ nb_licencies }} licenciés dans ce fichier.<br>
             Dont 
             <ul>
-                <li>{{nouveaux|length}} personnes absentes de la base</li>
-                <li>{{modifs|length}} personnes déjà présentes dans la base</li>
+                <li>{{ nouveaux|length }} personnes absentes de la base</li>
+                <li>{{ deja_presents }} personnes déjà présentes dans la base</li>
             </ul>
             <br>
+            
+
+
             {% if nouveaux|length > 0 %}
             
             <div class="row no-padding">
@@ -117,14 +121,14 @@
                     </div>
                   
                     <br>
-                    <button class="btn btn-success" type="submit">Importer</button>
+                    <button class="btn btn-success" type="submit">Importer ces nouveaux licenciés</button>
                 
                     </form>
                 </div>
             </div>
             {% endif %}
 
-            {% if (modifs|length > 0) %}
+            {% if (comp_modifs|length > 0) %}
           
             <div class="row no-padding">
                 <div class="col-lg-12">
@@ -132,9 +136,10 @@
                     <form action="index.php?rub=mise-a-jour" method="post">
                     <input type="hidden" name="destination" value="{{destination}}">
                     <div id="deja-presents" class="deja-presents">
-                        <table>
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Source</th>
                                     <th>Nméro de structure</th>
                                     <th>Prénom</th>
                                     <th>Nom</th>
@@ -158,31 +163,58 @@
                             </thead>
                             <tbody>
                         {% set cpt_elements = 0 %}
-                        {% for m in modifs %}
+                        {% for m in comp_modifs %}
                             <tr>
-                                <td><input type="text" name="{{cpt_elements}}_num_structure" value="{{ m.num_structure }}" size="10"></td>
-                                <td><input type="text" name="{{cpt_elements}}_prenom" value="{{ m.prenom }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_nom" value="{{ m.nom }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_sexe" value="{{ m.sexe }}" size="1"></td>
-                                <td><input type="text" name="{{cpt_elements}}_numero_licence" value="{{ m.numero_licence }}" size="20"></td>
-                                <td><input type="date" name="{{cpt_elements}}_date_naissance" value="{{ m.date_naissance|date("Y-m-d") }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_email" value="{{ m.email }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_rue" value="{{ m.rue }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_cp" value="{{ m.cp }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_ville" value="{{ m.ville }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_tel_portable" value="{{ m.tel_portable }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_tel_domicile" value="{{ m.tel_domicile }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_tel_bureau" value="{{ m.tel_bureau }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_tel_responsable_legal_1" value="{{ m.tel_resonsable_legal_1 }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_tel_responsable_legal_2" value="{{ m.tel_responsable_legal_2 }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_num_appt" value="{{ m.num_appt }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_residence" value="{{ m.residence }}"></td>
-                                <td><input type="text" name="{{cpt_elements}}_lieu_dit" value="{{ m.lieu_dit }}"></td>
-                                <td>
-                                    <input type="checkbox" name="{{cpt_elements}}_offrecom" {% if m.offreCom == "OUI" %} checked{% endif %}>
+                                <td>Fichier</td>
+                                <td>{{ m.fichier.num_structure }}</td>
+                                <td>{{ m.fichier.prenom }}</td>
+                                <td>{{ m.fichier.nom }}</td>
+                                <td>{{ m.fichier.sexe }}</td>
+                                <td>{{ m.fichier.numero_licence }}</td>
+                                <td>{{ m.fichier.date_naissance }}</td>
+                                <td>{{ m.fichier.email }}</td>
+                                <td>{{ m.fichier.rue }}</td>
+                                <td>{{ m.fichier.cp }}</td>
+                                <td>{{ m.fichier.ville }}</td>
+                                <td>{{ m.fichier.tel_portable }}</td>
+                                <td>{{ m.fichier.tel_domicile }}</td>
+                                <td>{{ m.fichier.tel_bureau }}</td>
+                                <td>{{ m.fichier.tel_resp_legal_1 }}</td>
+                                <td>{{ m.fichier.tel_resp_legal_2 }}</td>
+                                <td>{{ m.fichier.num_appt }}</td>
+                                <td>{{ m.fichier.residence }}</td>
+                                <td>{{ m.fichier.lieu_dit }}</td>
+                                <td>{{ m.fichier.offreCom }}</td>
+                            </tr>
+                            <tr>
+                                <td>bdd</td>
+                                <td>{{ m.bdd.uti_num_structure }}</td>
+                                <td>{{ m.bdd.uti_nom }}</td>
+                                <td>{{ m.bdd.uti_prenom }}</td>
+                                <td>{{ m.bdd.uti_sexe }}</td>
+                                <td>{{ m.bdd.uti_numero_licence }}</td>
+                                <td>{{ m.bdd.uti_date_naissance }}</td>
+                                <td>{{ m.bdd.uti_email }}</td>
+                                <td>{{ m.bdd.uti_adresse }}</td>
+                                <td>{{ m.bdd.uti_cp }}</td>
+                                <td>{{ m.bdd.uti_ville }} </td>
+                                <td>{{ m.bdd.uti_tel_portable }}</td>
+                                <td>{{ m.bdd.uti_tel_domicile }}</td>
+                                <td>{{ m.bdd.uti_tel_bureau }}</td>
+                                <td>{{ m.bdd.uti_tel_resp_legal_1 }}</td>
+                                <td>{{ m.bdd.uti_tel_resp_legal_2 }}</td>
+                                <td>{{ m.bdd.uti_num_appt }}</td>
+                                <td>{{ m.bdd.uti_residence }}</td>
+                                <td>{{ m.bdd.uti_lieu_dit }}</td>
+                                <td>{% if m.bdd.uti_offrecom == 1 %}OUI{%else%}NON{%endif%}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="20">
+                                    <hr>
                                 </td>
                             </tr>
-                            {% set cpt_elements = cpt_elements +1 %}
+
+                        {% set cpt_elements = cpt_elements +1 %}
                         {% endfor %}
                         </tbody>
                         </table>
@@ -195,21 +227,21 @@
             </div>  
 
              <script>
-        /*VERSION FACTORISEE*/
-const compare = (ids, asc) => (row1, row2) => {
-  const tdValue = (row, ids) => row.children[ids].textContent;
-  const tri = (v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
-  return tri(tdValue(asc ? row1 : row2, ids), tdValue(asc ? row2 : row1, ids));
-};
+                /*VERSION FACTORISEE*/
+                const compare = (ids, asc) => (row1, row2) => {
+                const tdValue = (row, ids) => row.children[ids].textContent;
+                const tri = (v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+                return tri(tdValue(asc ? row1 : row2, ids), tdValue(asc ? row2 : row1, ids));
+                };
 
-const tbody = document.querySelector('tbody');
-const thx = document.querySelectorAll('th');
-const trxb = tbody.querySelectorAll('tr');
-thx.forEach(th => th.addEventListener('click', () => {
-  console.log("clic");
-  let classe = Array.from(trxb).sort(compare(Array.from(thx).indexOf(th), this.asc = !this.asc));
-  classe.forEach(tr => tbody.appendChild(tr));
-}));
+                const tbody = document.querySelector('tbody');
+                const thx = document.querySelectorAll('th');
+                const trxb = tbody.querySelectorAll('tr');
+                thx.forEach(th => th.addEventListener('click', () => {
+                console.log("clic");
+                let classe = Array.from(trxb).sort(compare(Array.from(thx).indexOf(th), this.asc = !this.asc));
+                classe.forEach(tr => tbody.appendChild(tr));
+                }));
     </script>
             {% endif %}
 

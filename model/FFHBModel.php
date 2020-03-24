@@ -44,8 +44,7 @@ class FFHBModel
             );
             $joueurs [$cpt_joueur] = $joueur;
         }        
-       
-        //var_dump($joueurs);
+              
         return $joueurs;
     }
 
@@ -55,8 +54,9 @@ class FFHBModel
      * @return tabNouv : tableau des nouveaux licenciés
      */
     public static function getElementsNouveaux($licencies, $utilisateurs){
-        // var_dump($utilisateurs); -> ok
-        //var_dump($licencies); -> ok
+        //var_dump($licencies); //-> ok
+        //echo "<br>";
+        //var_dump($utilisateurs); // -> ok
         $tabNouv = null;
         $cptNouv = 0;
         /*  on part à 1 pour le fichier des licenciés parce que 
@@ -109,6 +109,10 @@ class FFHBModel
                 $cptExiste +=1;
             }
         }
+        //var_dump($tabExiste);
         return $tabExiste;        
     }    
+
+
+  
 }

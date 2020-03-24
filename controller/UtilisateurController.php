@@ -43,42 +43,65 @@ class UtilisateurController{
                 
                 if (move_uploaded_file( $_FILES['dataFile']['tmp_name'], $destination))
                 {
-                    //echo "Le fichier a été uploadé avec succès.";
                     $fichier_joueurs = FFHBModel::importation($destination);
-                    $nb_licencies = count($fichier_joueurs);
+                    $nb_licencies_fichier = count($fichier_joueurs);
 
                     // on va chercher les infos de la Table Utilisateur de la base
                     $db = new Database();
                     $o_conn = $db->makeConnect();
                     $ub = new UtilisateurBase();
 
-                    $ub_data = $ub->getUtilisateurs($o_conn);
+                    // les utilisateurs de la base
+                    $ub_data = UtilisateurBase::getUtilisateurs($o_conn);
                 
+                    
+                    // on recherche les élements insérer
+                    $tabNew = FFHBModel::getElementsNouveaux($fichier_joueurs, $ub_data);
+                    
+                    // on recherches les élements déjà présents
+                    $tabLicenciesAComparer = FFHBModel::getElementsPresents($fichier_joueurs, $ub_data);
+                    $nb_a_comparer = count($tabLicenciesAComparer);
+
+                    $comp_modifs = null;
+                    
+                    /** 
+                     * pour chaque licencié de tabLicenciesAModifier (tableau des licenciés à modifier éventuellement) */                    
+                    for ($cpt_pers = 0; $cpt_pers < $nb_a_comparer; $cpt_pers ++)
+                    {
+                        // on remplit la ligne à partir des infos du fichier
+                        $comp_modifs[$cpt_pers] =
+                            array('fichier' => $tabLicenciesAComparer[$cpt_pers])
+                            ;
+                        
+                        // on remplit la ligne à partie des infos de la base pour la personne qui a le même mail
+                        $tabEmail = array(
+                                       ':email' => $tabLicenciesAComparer[$cpt_pers]['email']
+                            );
+                        $comp_modifs[$cpt_pers]['bdd'] = UtilisateurBase::getUtilisateur($o_conn, $tabEmail)[0];    
+                        
+                    }    
+                    
+                    //var_dump($comp_modifs);
+
+
                     // envoi du résultat à la vue
                     $loader = new \Twig\Loader\FilesystemLoader('view');
                     $twig = new \Twig\Environment($loader, [
                         'cache' => false,
                     ]);
-
-
-                    // on recherche les élements insérer
-                    $tabNew = FFHBModel::getElementsNouveaux($fichier_joueurs, $ub_data);
-                        
-                    // on recherches les élements déjà présents
-                    $tabModif = FFHBModel::getElementsPresents($fichier_joueurs, $ub_data);
-                    
                     echo $twig->render('admin/import-resultat-lecture.html.twig', 
                                                 ["traitement" => "importation",
                                                 "resultat" => "ok",
-                                                "nb_licencies" => $nb_licencies,
-                                                "fichier_joueurs"=> $fichier_joueurs,
+                                                "nb_licencies" => $nb_licencies_fichier,
+                                                //"fichier_joueurs"=> $fichier_joueurs,
                                                 "nouveaux"=>$tabNew,
-                                                "modifs"=>$tabModif,
-                                                "ub_data"=>$ub_data,
+                                                //"modifs"=>$tabModif,
+                                                //ub_data"=>$ub_data,
                                                 "destination"=>$destination,
+                                                "comp_modifs" => $comp_modifs,
+                                                "nb_a_comparer" => $nb_a_comparer,
                                                 ]
-                                    );
-                                
+                                    );                              
                 }
             }
             else 
@@ -103,6 +126,7 @@ class UtilisateurController{
                 echo $twig->render('admin/import-pas-upload.html.twig');
         }
     }
+
 
     /** 
      * function qui récupère les nouveaux utilisateurs et les ajout en base
