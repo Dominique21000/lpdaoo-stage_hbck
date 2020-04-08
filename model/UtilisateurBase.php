@@ -1,7 +1,7 @@
 <?php
 class UtilisateurBase{
     /** recupere les données de l'utilisateur dont le mail est passé en paramètre */
-    public function getUtilisateur($db, $data){
+    public static function getUtilisateur($db, $data){
         $sql = "SELECT * ";
         $sql .= " FROM Utilisateur ";
         $sql .= " WHERE uti_email = :email";
@@ -11,15 +11,23 @@ class UtilisateurBase{
     }
 
     /** recupere les données de l'utilisateur dont le mail est passé en paramètre */
-    public function getUtilisateurs($db){
-        $sql = "SELECT * ";
+    public static function getUtilisateurs($db){
+        $sql = "SELECT DISTINCT * ";
         $sql .= " FROM Utilisateur ";
         $stmt = $db->prepare($sql);
         $stmt->execute();
-        //var_dump($stmt);
-        $res =$stmt->fetchall(); 
-        //var_dump($res);
+        $res =$stmt->fetchall(PDO::FETCH_NAMED); 
         return $res;
+    }
+
+    /** recupere le nombre max des utilisateurs  */
+    public static function getMaxiUtilisateur($db){
+        $sql = "SELECT MAX(uti_id) as maxi";
+        $sql .= " FROM Utilisateur";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $res =$stmt->fetchall(PDO::FETCH_NAMED); 
+        return $res[0]['maxi'];
     }
 
     public static function addUtilisateur($db, $data){

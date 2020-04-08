@@ -45,6 +45,9 @@ switch ($rub) {
         UtilisateurController::creationNouveauBase($_POST);
         break;
 
+    case "mise-a-jour":
+        UtilisateurController::majUtilisateur($_POST);
+        break;
 
     default:
         $tabGET = array(

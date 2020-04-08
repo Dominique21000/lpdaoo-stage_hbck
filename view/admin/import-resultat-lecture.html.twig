@@ -16,18 +16,47 @@
                 <li>{{ deja_presents }} personnes déjà présentes dans la base</li>
             </ul>
             <br>
-            
-
+        </div>
+    </div>
 
             {% if nouveaux|length > 0 %}
-            
+            <style>
+                .table-fixed{
+                    width: 100%;
+                    background-color: #f3f3f3;
+                    tbody{
+                        height:200px;
+                        overflow-y:auto;
+                        width: 100%;
+                    }
+                    thead,tbody,tr,td,th{
+                        display:block;
+                    }
+                    tbody{
+                        td{
+                            float:left;
+                        }
+                    }
+                    thead{
+                        tr{
+                            th{
+                                float:left;
+                                background-color: #f39c12;
+                                border-color:#e67e22;
+                            }
+                        }
+                    }
+                }
+            </style>
+
+
             <div class="row no-padding">
                 <div class="col-lg-12">
                 <h2>Personnes absentes de la base de données : </h2>
                     <form action="index.php?rub=ajout-nveau-bdd" method="post">
                     <input type="hidden" name="destination" value="{{destination}}">
                     <div class="absents">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-fixed">
                             <thead>
                                 <tr>
                                     <th>Numéro de structure</th>
@@ -128,6 +157,7 @@
             </div>
             {% endif %}
 
+
             {% if (comp_modifs|length > 0) %}
           
             <div class="row no-padding">
@@ -136,7 +166,7 @@
                     <form action="index.php?rub=mise-a-jour" method="post">
                     <input type="hidden" name="destination" value="{{destination}}">
                     <div id="deja-presents" class="deja-presents">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-fixed">
                             <thead>
                                 <tr>
                                     <th>Source</th>
@@ -145,6 +175,7 @@
                                     <th>Nom</th>
                                     <th>Sexe</th>
                                     <th>Numéro de licence</th>
+                                    <th>Mention</th>
                                     <th>Date de naissance</th>
                                     <th>Email</th>
                                     <th>Adresse</th>
@@ -161,38 +192,44 @@
                                     <th>OffreCom</th>
                                 </tr>
                             </thead>
+                            
                             <tbody>
+
                         {% set cpt_elements = 0 %}
                         {% for m in comp_modifs %}
+                        <!-- ligne fichier de la fédé -->
                             <tr>
-                                <td>Fichier</td>
-                                <td>{{ m.fichier.num_structure }}</td>
-                                <td>{{ m.fichier.prenom }}</td>
-                                <td>{{ m.fichier.nom }}</td>
-                                <td>{{ m.fichier.sexe }}</td>
-                                <td>{{ m.fichier.numero_licence }}</td>
-                                <td>{{ m.fichier.date_naissance }}</td>
-                                <td>{{ m.fichier.email }}</td>
-                                <td>{{ m.fichier.rue }}</td>
-                                <td>{{ m.fichier.cp }}</td>
-                                <td>{{ m.fichier.ville }}</td>
-                                <td>{{ m.fichier.tel_portable }}</td>
-                                <td>{{ m.fichier.tel_domicile }}</td>
-                                <td>{{ m.fichier.tel_bureau }}</td>
-                                <td>{{ m.fichier.tel_resp_legal_1 }}</td>
-                                <td>{{ m.fichier.tel_resp_legal_2 }}</td>
-                                <td>{{ m.fichier.num_appt }}</td>
-                                <td>{{ m.fichier.residence }}</td>
-                                <td>{{ m.fichier.lieu_dit }}</td>
-                                <td>{{ m.fichier.offreCom }}</td>
+                                <td>Fédération</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_structure" value="{{ m.fichier.num_structure }}"/>{{ m.fichier.num_structure }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_prenom" value="{{ m.fichier.prenom }}"/>{{ m.fichier.prenom }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_nom" value="{{ m.fichier.nom }}"/>{{ m.fichier.nom }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_sexe" value="{{ m.fichier.sexe }}"/>{{ m.fichier.sexe }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_licence" value="{{ m.fichier.numero_licence }}"/>{{ m.fichier.numero_licence }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_mention" value="{{ m.fichier.numero_licence }}"/>{{ m.fichier.mention }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_date" value="{{ m.fichier.date_naissance }}"/>{{ m.fichier.date_naissance }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_email" value="{{ m.fichier.email }}"/>{{ m.fichier.email }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_rue" value="{{ m.fichier.rue }}"/>{{ m.fichier.rue }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_cp" value="{{ m.fichier.cp }}"/>{{ m.fichier.cp }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_ville" value="{{ m.fichier.ville }}"/>{{ m.fichier.ville }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_portable" value="{{ m.fichier.tel_portable }}"/>{{ m.fichier.tel_portable }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_domicile" value="{{ m.fichier.tel_domicile }}"/>{{ m.fichier.tel_domicile }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_bureau" value="{{ m.fichier.tel_bureau }}"/>{{ m.fichier.tel_bureau }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_rl1" value="{{ m.fichier.tel_responsable_legal_1 }}"/>{{ m.fichier.tel_responsable_legal_1 }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_rl2" value="{{ m.fichier.tel_responsable_legal_2 }}"/>{{ m.fichier.tel_responsable_legal_2 }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_appt" value="{{ m.fichier.num_appt }}"/>{{ m.fichier.num_appt }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_residence" value="{{ m.fichier.residence }}"/>{{ m.fichier.residence }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_lieu" value="{{ m.fichier.lieu_dit }}"/>{{ m.fichier.lieu_dit }}</td>
+                                <td><input type="hidden" name="{{ m.bdd.uti_id }}_offrecom" value="{{ m.fichier.offreCom }}"/>{{ m.fichier.offreCom }}</td>
                             </tr>
+                            <!-- ligne bdd -->
                             <tr>
-                                <td>bdd</td>
+                                <td>Données existantes</td>
                                 <td>{{ m.bdd.uti_num_structure }}</td>
-                                <td>{{ m.bdd.uti_nom }}</td>
                                 <td>{{ m.bdd.uti_prenom }}</td>
+                                <td>{{ m.bdd.uti_nom }}</td>
                                 <td>{{ m.bdd.uti_sexe }}</td>
                                 <td>{{ m.bdd.uti_numero_licence }}</td>
+                                <td>{{ m.bdd.uti_mention }}</td>
                                 <td>{{ m.bdd.uti_date_naissance }}</td>
                                 <td>{{ m.bdd.uti_email }}</td>
                                 <td>{{ m.bdd.uti_adresse }}</td>
@@ -209,6 +246,29 @@
                                 <td>{% if m.bdd.uti_offrecom == 1 %}OUI{%else%}NON{%endif%}</td>
                             </tr>
                             <tr>
+                                <td>Mettre à jour ? {{ m.bdd.uti_id }}</td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_structure_maj_ok" value="{{ m.fichier.num_structure }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_prenom_maj_ok" value="{{ m.fichier.prenom }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_nom_maj_ok" value="{{ m.fichier.nom }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_sexe_maj_ok" value="{{ m.fichier.sexe }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_licence_maj_ok" value="{{ m.fichier.numero_licence }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_mention_maj_ok" value="{{ m.fichier.mention }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_date_maj_ok" value="{{ m.fichier.date_naissance }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_email_maj_ok" value="{{ m.fichier.email }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_rue_maj_ok" value="{{ m.fichier.rue }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_cp_maj_ok" value="{{ m.fichier.cp }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_ville_maj_ok" value="{{ m.fichier.ville }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_portable_maj_ok" value="{{ m.fichier.tel_portable }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_domicile_maj_ok" value="{{ m.fichier.tel_domicile }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_bureau_maj_ok" value="{{ m.fichier.tel_bureau }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_rl1_maj_ok" value="{{ m.fichier.tel_responsable_legal_1 }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_rl2_maj_ok" value="{{ m.fichier.tel_responsable_legal_2 }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_num_appt_maj_ok" value="{{ m.fichier.num_appt }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_residence_maj_ok" value="{{ m.fichier.residence }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_lieu_maj_ok" value="{{ m.fichier.lieu_dit }}"></td>
+                                <td><input type="checkbox" name="{{ m.bdd.uti_id }}_offrecom_maj_ok" value="{{ m.fichier.offreCom }}"></td>
+                            </tr>
+                            <tr>
                                 <td colspan="20">
                                     <hr>
                                 </td>
@@ -217,6 +277,7 @@
                         {% set cpt_elements = cpt_elements +1 %}
                         {% endfor %}
                         </tbody>
+                       
                         </table>
                     </div>
 
@@ -242,14 +303,9 @@
                 let classe = Array.from(trxb).sort(compare(Array.from(thx).indexOf(th), this.asc = !this.asc));
                 classe.forEach(tr => tbody.appendChild(tr));
                 }));
-    </script>
+            </script>
             {% endif %}
 
-        </div>
-    </div>
-
-    
-    
     {% else %}
         Il y a eu un soucis durant l'importation.
 

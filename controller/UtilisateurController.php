@@ -2,6 +2,7 @@
 require_once 'model/Database.php';
 require_once 'model/UtilisateurBase.php';
 require_once 'model/Outils.php';
+require_once 'model/LicencieBase.php';
 
 class UtilisateurController{
     /** affichage du formulaire de l'importation des données 
@@ -206,5 +207,230 @@ class UtilisateurController{
                                 );               
             
         } 
+    }
+
+    public static function majUtilisateur($tabPost){
+        echo "dans maj utilisateur";
+        //var_dump($tabPost);
+
+         // on va chercher les infos de la Table Utilisateur de la base
+         $db = new Database();
+         $o_conn = $db->makeConnect();
+
+        // on va chercher les max des utilisateurs
+        $uti_id_maxi = UtilisateurBase::getMaxiUtilisateur($o_conn);
+        echo "<br/>maxi uti = " . $uti_id_maxi;
+        echo "<br>";
+
+        // on balaye chaque utilisateur
+        for ($cpt_utilisateur=1 ; $cpt_utilisateur <= $uti_id_maxi; $cpt_utilisateur++)
+        {
+            //echo $cpt_utilisateur. " - " ;
+            if (isset($tabPost[$cpt_utilisateur."_structure_maj_ok"])) {
+                echo "struc à maj à ". $tabPost[$cpt_utilisateur."_structure_maj_ok"]."<br>";
+                $data = array (
+                    ':num_structure' => $tabPost[$cpt_utilisateur."_structure_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateStructure($o_conn, $data);
+
+            }
+        
+            if (isset($tabPost[$cpt_utilisateur."_prenom_maj_ok"])){
+                echo "prenom à maj à ". $tabPost[$cpt_utilisateur."_prenom_maj_ok"]."<br>";
+                $data = array (
+                    ':prenom' => $tabPost[$cpt_utilisateur."_prenom_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updatePrenom($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_nom_maj_ok"]))
+            {
+                echo "nom à maj à ". $tabPost[$cpt_utilisateur."_nom_maj_ok"]."<br>";
+                $data = array (
+                    ':nom' => $tabPost[$cpt_utilisateur."_nom_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateNom($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_sexe_maj_ok"]))
+            {   
+                echo "sexe à maj à ". $tabPost[$cpt_utilisateur."_sexe_maj_ok"]."<br>";
+                $data = array (
+                    ':sexe' => $tabPost[$cpt_utilisateur."_sexe_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateSexe($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_licence_maj_ok"])){
+                echo "licence à maj à ". $tabPost[$cpt_utilisateur."_licence_maj_ok"]."<br>";
+                $data = array (
+                    ':numero_licence' => $tabPost[$cpt_utilisateur."_licence_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateNumeroLicence($o_conn, $data);
+            }
+                
+        
+            if (isset($tabPost[$cpt_utilisateur."_mention_maj_ok"])){
+                echo "mention à maj à ". $tabPost[$cpt_utilisateur."_mention_maj_ok"]."<br>";
+                $data = array (
+                    ':mention' => $tabPost[$cpt_utilisateur."_mention_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateMention($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_date_maj_ok"])){
+                echo "date à maj à ". $tabPost[$cpt_utilisateur."_date_maj_ok"]."<br>";
+                $data = array (
+                    ':date_naissance' => $tabPost[$cpt_utilisateur."_date_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateDateNaissance($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_email_maj_ok"]))  {
+                echo "mail à maj à ". $tabPost[$cpt_utilisateur."_email_maj_ok"]."<br>";
+                $data = array (
+                    ':email' => $tabPost[$cpt_utilisateur."_email_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateEmail($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_rue_maj_ok"])){
+                echo "rue à maj à ". $tabPost[$cpt_utilisateur."_rue_maj_ok"]."<br>";
+                $data = array (
+                    ':adresse' => $tabPost[$cpt_utilisateur."_rue_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateRue($o_conn, $data);
+            }
+
+            if (isset($tabPost[$cpt_utilisateur."_cp_maj_ok"])) {
+                echo "cp à maj à ". $tabPost[$cpt_utilisateur."_cp_maj_ok"]."<br>";
+                $data = array (
+                    ':cp' => $tabPost[$cpt_utilisateur."_cp_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateCp($o_conn, $data);
+            }
+            
+            if (isset($tabPost[$cpt_utilisateur."_ville_maj_ok"])){
+                echo "ville à maj à ". $tabPost[$cpt_utilisateur."_ville_maj_ok"]."<br>";
+                $data = array (
+                    ':ville' => $tabPost[$cpt_utilisateur."_ville_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateVille($o_conn, $data);
+            }
+                
+            if (isset($tabPost[$cpt_utilisateur."_portable_maj_ok"])){
+                echo "portable à maj à ". $tabPost[$cpt_utilisateur."_portable_maj_ok"]."<br>";
+                $data = array (
+                    ':tel_portable' => "0".$tabPost[$cpt_utilisateur."_portable_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateTelPortable($o_conn, $data);
+            }
+                
+            if (isset($tabPost[$cpt_utilisateur."_domicile_maj_ok"])){
+                echo "domicile à maj à ". $tabPost[$cpt_utilisateur."_domicile_maj_ok"]."<br>";
+                $data = array (
+                    ':tel_domicile' => "0".$tabPost[$cpt_utilisateur."_domicile_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateTelDomicile($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_bureau_maj_ok"])){
+                echo "domicile à maj à ". $tabPost[$cpt_utilisateur."_bureau_maj_ok"]."<br>";
+                $data = array (
+                    ':tel_bureau' => "0".$tabPost[$cpt_utilisateur."_bureau_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateTelBureau($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_rl1_maj_ok"])){
+                echo "responsable legal 1 à maj à ". $tabPost[$cpt_utilisateur."_rl1_maj_ok"]."<br>";
+                $data = array (
+                    ':tel_resp_legal_1' => "0".$tabPost[$cpt_utilisateur."_rl1_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateTelRespLegal1($o_conn, $data);
+            }
+                
+            
+            if (isset($tabPost[$cpt_utilisateur."_rl2_maj_ok"])){
+                echo "responsable legal 2 à maj à ". $tabPost[$cpt_utilisateur."_rl2_maj_ok"]."<br>";
+                $data = array (
+                    ':tel_resp_legal_2' => "0".$tabPost[$cpt_utilisateur."_rl2_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateTelRespLegal2($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_num_appt_maj_ok"])){
+                echo "num appt à maj à ". $tabPost[$cpt_utilisateur."_num_appt_maj_ok"]."<br>";
+                $data = array (
+                    ':num_appt' => $tabPost[$cpt_utilisateur."_num_appt_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateNumAppt($o_conn, $data);
+            }
+                
+
+            if (isset($tabPost[$cpt_utilisateur."_residence_maj_ok"])){
+                echo "résidence à maj à ". $tabPost[$cpt_utilisateur."_residence_maj_ok"]."<br>";
+                $data = array (
+                    ':residence' => $tabPost[$cpt_utilisateur."_residence_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateResidence($o_conn, $data);
+            }
+                
+        
+            if (isset($tabPost[$cpt_utilisateur."_lieu_maj_ok"])){
+                echo "lieu à maj à ". $tabPost[$cpt_utilisateur."_lieu_maj_ok"]."<br>";
+                $data = array (
+                    ':lieu_dit' => $tabPost[$cpt_utilisateur."_lieu_maj_ok"],
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateLieuDit($o_conn, $data);
+            }
+               
+
+            if (isset($tabPost[$cpt_utilisateur."_offrecom_maj_ok"])){
+                echo "offrecom à maj à ". $tabPost[$cpt_utilisateur."_offrecom_maj_ok"]."<br>";
+                $offre_com = 0;
+                if ($tabPost[$cpt_utilisateur."_offrecom_maj_ok"] == "OUI"){
+                    $offre_com = 1;
+                }
+                $data = array (
+                    ':offre_com' => $offre_com,
+                    ':id' => $cpt_utilisateur
+                );
+                LicencieBase::updateOffreCom($o_conn, $data);
+            }
+            
+            echo "<br>";
+
+           
+        }
+
     }
 }
