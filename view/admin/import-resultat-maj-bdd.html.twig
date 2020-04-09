@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration - Upload{% endblock %}
+
+{%block content%}
+    <h1>Mise à jour des licenciés existant.</h1>
+    {% if resultat == true %}
+        La mise à jour des licenciés s'est effectué avec succès. 
+    {% else %}
+        Il y a eu un problème durant la mise à jour des licenciés.
+    {% endif %}
+{%endblock%}

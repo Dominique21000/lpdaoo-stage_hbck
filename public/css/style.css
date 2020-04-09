@@ -83,6 +83,8 @@ footer{
 table thead{
     position: absolute;
     overflow-x: scroll;
+    overflow-y: hidden;
+    
     color: #000;
     width:100%;
     height: 100px;
@@ -96,7 +98,7 @@ table tbody{
     
     height: 300px;
     width: 100%;
-    overflow: scroll ;
+    overflow:scroll;
 
     top:150px;
 }
