@@ -1,0 +1,75 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration : Ajout d'un nouvel utilisateur{%endblock%}
+
+
+{%block content%}
+{% set prenom = "" %}
+{%    set nom = "" %}
+{%    set email = "" %}
+{%    set login = "" %}
+{% set actif = 0 %}
+{% set mailcoonfirme = 0 %}
+
+{% if mode == "new"%}
+    <h1>Administration - Ajout d'un nouvel utilisateur</h1>
+    <form action="index.php?rub=admin-user-new-bdd" method="post">
+{% else %}
+    <h1>Administration - Modification de l'utilisateur n° {{utilisateur.uti_id}}</h1>
+    <form action="index.php?rub=admin-user-update-bdd" method="post">
+    <input type="hidden" name="id" value="{{ utilisateur.uti_id}}"/>
+    {% set prenom = utilisateur.uti_prenom %}
+    {% set nom = utilisateur.uti_nom %}
+    {% set email = utilisateur.uti_email %}
+    {% set login = utilisateur.uti_login %}
+    {% set actif = utilisateur.uti_actif %}
+    {% set mailconfirme = utulisateur.uti_mailconfirme %}
+
+{% endif %}
+<table>
+    <tr>
+        <th><label for="prenom">Prénom</label></th>
+        <td><input type="text" name="prenom" value="{{prenom}}" required></td>
+    </tr>
+    <tr>
+        <th><label for="nom">Nom</label></th>
+        <td><input type="text" name="nom" value="{{nom}}" required></td>
+    </tr>
+    <tr>
+        <th><label for="email">email</label></th>
+        <td><input type="email" name="email" value="{{email}}" required></td>
+    </tr>
+    <tr>
+        <th>Login</th>
+        <td><input type="text" name="login" value="{{ login }}" required></td>
+    </tr>
+    <tr>
+        <th>Actif</th>
+        {% if actif ==1 %}
+        <td class="oui">
+            <input type="checkbox" name="actif" checked value="actif">
+        {% else %}
+        <td class=-"non">
+            <input type="checkbox" name="actif" value="">
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Mail confirmé ?</th>
+        {% if mailconfirme == 1%}
+        <td class="oui">Oui</td>
+        {% else %}
+         <td class="non">Non</td>     
+         {% endif %}
+    </tr>
+
+    <tr><td colspan="2">&nbsp;</td></tr>
+    <tr>
+        <td colspan="2">
+            <input 
+                type="submit" 
+                value="{% if mode == 'new' %}Ajouter{% else %}Valider ces modifications{% endif %}">
+            </td>
+    </table>
+</form>
+{% endblock %}

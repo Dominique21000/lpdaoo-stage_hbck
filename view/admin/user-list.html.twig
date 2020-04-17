@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration : Liste des utilisateurs{%endblock%}
+
+{%block content%}
+<h2>Administration des utilisateurs : Listes des utilisateurs</h2>
+<p> 
+    <a href="index.php?rub=admin-user-new-form">
+        <button type="submit">Ajout d'un utilisateur</button>
+    </a>
+</p>
+
+{% if utilisateurs|length == 0%}
+    <p>
+        Pas d'encore d'utilisateurs.
+    </p>
+{% else %}
+    <p>{{utilisateurs|length}} utilisateur(s)</p>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Modifier</td>
+            <td>Rendre inactif</td>
+
+            <th><label for="prenom">Prénom</label></th>
+            <th><label for="nom">Nom</label></th>
+            <th><label for="email">email</label></th>
+            <th><label for="login">Login</label></th>
+            <th><label for="actif">Actif ?</label></th>
+            <th><label for="actif">Mail confirmé ?</label></th>
+        </tr>
+        </thead>
+        
+
+        <tbody>
+
+        {% for u in utilisateurs %}
+            <tr>
+                <td><a href="index.php?rub=admin-user-update-form&id={{ u.uti_id }}">M</a></td>
+                <td><a href="../traitements/sexe-suppression.php?&id_sex=<?php echo $s['sex_id']?>">S</td>
+                <td>{{u.uti_prenom}}</td>
+                <td>{{u.uti_nom}}</td>
+                <td>{{u.uti_email}}</td>
+                <td>{{u.uti_login}}</td>
+                
+                <!-- actif -->
+                {% if u.uti_actif == 1 %}
+                    <td class="oui">Actif
+                    {% else %}
+                    <td class="non">Inactif
+                    {% endif %}
+                </td>
+                
+                {% if u.uti_mailconfirme == 1 %}
+                    <td class="oui">Oui
+                {% else %}
+                    <td class="non">Non - <a href="index.php?rub=envoi-mail&id={{ u.uti_id }}" style="color:white;">Renvoyer le mail</a>
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock %}

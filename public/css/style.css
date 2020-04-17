@@ -80,7 +80,7 @@ footer{
 }
 
 
-table thead{
+.absent table thead, .deja-presents table thead{
     position: absolute;
     overflow-x: scroll;
     overflow-y: hidden;
@@ -91,7 +91,7 @@ table thead{
    
 }
 
-table tbody{
+.absent table tbody, .deja-presents table tbody{
     position:absolute;
    
     color: indigo;
@@ -101,4 +101,14 @@ table tbody{
     overflow:scroll;
 
     top:150px;
+}
+
+.oui{
+    background-color: green;
+    color:white;
+}
+
+.non{
+    background-color: red;
+    color:white;
 }

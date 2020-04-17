@@ -9,7 +9,7 @@ class Database
     var $connection = "";
 
     // paramètres passée : valeur par défaut
-    function __construct($base = "appli_hbck_bd", $user = "phpmyadmin", $password = "phpmyadmin*1", $host = "127.0.0.1")
+    function __construct($base = "hbck_stage_bd", $user = "hbck_stage_user", $password = "hbck_stage_user*1", $host = "127.0.0.1")
 
     {
         $this->baseName = $base;

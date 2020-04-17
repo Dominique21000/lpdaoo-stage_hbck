@@ -34,6 +34,15 @@
               <li class="nav-item {% if rub == 'importation' %} active{% endif %}">
                 <a class="nav-link" href="index.php?rub=importation" title="Importation des données">Importation des données</a>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Gestion des utilisateurs
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="index.php?rub=admin-user-list">Liste des utilisateurs</a>
+                  <a class="dropdown-item" href="index.php?rub=admin-user-new-form">Création d'un nouvel utilisateur</a>
+                </div>
+              </li>
                <li class="nav-item {% if rub == 'aide' %} active{% endif %}">
                 <a class="nav-link" href="index.php?rub=aide" title="? - Aide">? - Aide</a>
               </li>

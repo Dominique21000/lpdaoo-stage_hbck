@@ -246,7 +246,7 @@
                                 <td>{% if m.bdd.uti_offrecom == 1 %}OUI{%else%}NON{%endif%}</td>
                             </tr>
                             <tr>
-                                <td>Mettre à jour ? {{ m.bdd.uti_id }}</td>
+                                <td>Mettre à jour ?<!-- {{ m.bdd.uti_id }} --></td>
                                 <td><input type="checkbox" name="{{ m.bdd.uti_id }}_structure_maj_ok" value="{{ m.fichier.num_structure }}"></td>
                                 <td><input type="checkbox" name="{{ m.bdd.uti_id }}_prenom_maj_ok" value="{{ m.fichier.prenom }}"></td>
                                 <td><input type="checkbox" name="{{ m.bdd.uti_id }}_nom_maj_ok" value="{{ m.fichier.nom }}"></td>

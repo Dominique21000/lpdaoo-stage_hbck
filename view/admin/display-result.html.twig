@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration : {{rubrique}}{%endblock%}
+
+{%block content%}
+    <h1>{{ rubrique }} : {{ fonctionnalites}}</h1>
+
+    {% if res == true %}
+        <span class="oui">Votre mail a bien été confirmé. Nous vous en remerçions.</span>
+    {% else %}
+        <span class="non">Nous sommes désolé, il y a eu un problème durant le processus.</span>
+    {% endif %}
+
+{%endblock%}
