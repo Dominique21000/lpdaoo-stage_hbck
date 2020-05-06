@@ -28,9 +28,14 @@
               <li class="nav-item {% if rub == 'matchs-a-venir' %} active{% endif %}">
                 <a class="nav-link" href="index.php?rub=matchs-a-venir" title="Lite des matchs à venir">Matchs à venir</a>
               </li>
+              <li class="nav-item {% if rub == 'aide' %} active{% endif %}">
+                <a class="nav-link" href="index.php?rub=aide" title="À propos">À propos</a>
+              </li>
               <li class="nav-item {% if rub == 'connexion' %} active{% endif %}">
                 <a class="nav-link" href="index.php?rub=connexion" title="Connexion">Connexion</a>
               </li>
+              
+              {% if session.role == "Administrateur" %}
               <li class="nav-item {% if rub == 'importation' %} active{% endif %}">
                 <a class="nav-link" href="index.php?rub=importation" title="Importation des données">Importation des données</a>
               </li>
@@ -43,9 +48,11 @@
                   <a class="dropdown-item" href="index.php?rub=admin-user-new-form">Création d'un nouvel utilisateur</a>
                 </div>
               </li>
-               <li class="nav-item {% if rub == 'aide' %} active{% endif %}">
-                <a class="nav-link" href="index.php?rub=aide" title="? - Aide">? - Aide</a>
+              <li class="nav-item">
+                <a href="index.php?rub=deconnexion" class="nav-link">Déconnexion</a>
               </li>
+              {% endif %}
+              
             </ul>
             <img src="public/img/logo.png" height="50px"/>
           </div>
@@ -54,7 +61,7 @@
           {%block content%}{%endblock %}
         </div>
         <footer>
-          Site développé par <br/>Dominique SAUVIGNON et Éric STURM
+          Site développé par Dominique SAUVIGNON
           </footer>
         <link href="public/css/style.css" type="text/css" rel="stylesheet" /> 
         <link href="public/bootstrap-4.4.1-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>

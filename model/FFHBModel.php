@@ -1,5 +1,5 @@
 <?php
-require('XLSXReader.php');
+require('bibli/XLSXReader.php');
 
 class FFHBModel 
 {

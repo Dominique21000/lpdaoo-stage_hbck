@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Bienvenue{%endblock%}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Connecté(e) :)</h1>
+        Bienvenue {{session.prenom}} {{session.nom}},<br>
+        Vous êtes à présent connecté en tant que {{session.role}}, vous avez à présent accès au site de façon personnalisée.
+    </div>
+</div>
+{% endblock %}

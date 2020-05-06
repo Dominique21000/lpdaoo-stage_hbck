@@ -2,13 +2,13 @@
 
 {%block title%}Administration : {{rubrique}}{%endblock%}
 
-{%block content%}
-    <h1>{{ rubrique }} : {{ fonctionnalites}}</h1>
+{% block content %}
+    <h1>{{ rubrique }} : {{fonctionnalites}}</h1>
 
     {% if res == true %}
-        <span class="oui">Votre mail a bien été confirmé. Nous vous en remerçions.</span>
+        <span class="oui">{{message}}</span>
     {% else %}
-        <span class="non">Nous sommes désolé, il y a eu un problème durant le processus.</span>
+        <span class="non">{{message}}</span>
     {% endif %}
 
-{%endblock%}
+{% endblock %}

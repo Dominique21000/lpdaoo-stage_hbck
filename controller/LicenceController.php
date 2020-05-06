@@ -1,8 +1,8 @@
 <?php
-require_once 'model/Database.php';
-require_once 'model/UtilisateurBase.php';
-require_once 'model/Outils.php';
-require_once 'model/LicenceBase.php';
+require_once 'dao/Database.php';
+require_once 'dao/UtilisateurDAO.php';
+require_once 'outils/Outils.php';
+require_once 'dao/LicenceDAO.php';
 
 class LicenceController{
     /** affichage du formulaire de l'importation des données 
@@ -50,10 +50,10 @@ class LicenceController{
                     // on va chercher les infos de la Table Utilisateur de la base
                     $db = new Database();
                     $o_conn = $db->makeConnect();
-                    $lb = new LicenceBase();
+                    $lb = new LicenceDAO();
 
                     // les utilisateurs de la base
-                    $lb_data = LicenceBase::getLicences($o_conn);
+                    $lb_data = LicenceDAO::getLicences($o_conn);
                 
                     
                     // on recherche les élements insérer
@@ -85,7 +85,7 @@ class LicenceController{
                         $tabEmail = array(
                                        ':email' => $tabLicenciesAComparer[$cpt_pers]['email']
                             );
-                        $comp_modifs[$cpt_pers]['bdd'] = LicenceBase::getLicencie($o_conn, $tabEmail)[0];    
+                        $comp_modifs[$cpt_pers]['bdd'] = LicenceDAO::getLicencie($o_conn, $tabEmail)[0];    
                         
                     }    
                     
@@ -149,7 +149,7 @@ class LicenceController{
         // on va chercher les infos de la Table Utilisateur de la base
         $db = new Database();
         $o_conn = $db->makeConnect();
-        $lb = new LicenceBase();
+        $lb = new LicenceDAO();
 
         // on récupère les utilisateurs actuels
         $lb_data = $lb->getLicences($o_conn);
@@ -233,7 +233,7 @@ class LicenceController{
          $o_conn = $db->makeConnect();
 
         // on va chercher les max des utilisateurs
-        $uti_id_maxi = UtilisateurBase::getMaxiUtilisateur($o_conn);
+        $uti_id_maxi = UtilisateurDAO::getMaxiUtilisateur($o_conn);
         //echo "<br/>maxi uti = " . $uti_id_maxi ."<br>";
        
         $structure_ok = 1;
@@ -268,7 +268,7 @@ class LicenceController{
                     ':num_structure' => $tabPost[$cpt_utilisateur."_structure_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $structure_ok = LicenceBase::updateStructure($o_conn, $data);
+                $structure_ok = LicenceDAO::updateStructure($o_conn, $data);
                 //echo "structure ok = " .$structure_ok . "<br>";
             }
         
@@ -278,7 +278,7 @@ class LicenceController{
                     ':prenom' => $tabPost[$cpt_utilisateur."_prenom_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $prenom_ok = LicenceBase::updatePrenom($o_conn, $data);
+                $prenom_ok = LicenceDAO::updatePrenom($o_conn, $data);
             }
                 
 
@@ -289,7 +289,7 @@ class LicenceController{
                     ':nom' => $tabPost[$cpt_utilisateur."_nom_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $nom_ok = LicenceBase::updateNom($o_conn, $data);
+                $nom_ok = LicenceDAO::updateNom($o_conn, $data);
             }
                 
 
@@ -300,7 +300,7 @@ class LicenceController{
                     ':sexe' => $tabPost[$cpt_utilisateur."_sexe_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $sexe_ok = LicenceBase::updateSexe($o_conn, $data);
+                $sexe_ok = LicenceDAO::updateSexe($o_conn, $data);
             }
                 
 
@@ -310,7 +310,7 @@ class LicenceController{
                     ':numero_licence' => $tabPost[$cpt_utilisateur."_licence_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $numero_licence_ok = LicenceBase::updateNumeroLicence($o_conn, $data);
+                $numero_licence_ok = LicenceDAO::updateNumeroLicence($o_conn, $data);
                 
             }
                 
@@ -321,7 +321,7 @@ class LicenceController{
                     ':mention' => $tabPost[$cpt_utilisateur."_mention_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $mention_ok = LicenceBase::updateMention($o_conn, $data);
+                $mention_ok = LicenceDAO::updateMention($o_conn, $data);
             }
                 
 
@@ -331,7 +331,7 @@ class LicenceController{
                     ':date_naissance' => $tabPost[$cpt_utilisateur."_date_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $date_naissance_ok = LicenceBase::updateDateNaissance($o_conn, $data);
+                $date_naissance_ok = LicenceDAO::updateDateNaissance($o_conn, $data);
             }
                 
 
@@ -341,7 +341,7 @@ class LicenceController{
                     ':email' => $tabPost[$cpt_utilisateur."_email_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $email_ok = LicenceBase::updateEmail($o_conn, $data);
+                $email_ok = LicenceDAO::updateEmail($o_conn, $data);
             }
                 
 
@@ -351,7 +351,7 @@ class LicenceController{
                     ':adresse' => $tabPost[$cpt_utilisateur."_rue_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $rue_ok = LicenceBase::updateRue($o_conn, $data);
+                $rue_ok = LicenceDAO::updateRue($o_conn, $data);
             }
 
             if (isset($tabPost[$cpt_utilisateur."_cp_maj_ok"])) {
@@ -360,7 +360,7 @@ class LicenceController{
                     ':cp' => $tabPost[$cpt_utilisateur."_cp_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $cp_ok = LicenceBase::updateCp($o_conn, $data);
+                $cp_ok = LicenceDAO::updateCp($o_conn, $data);
             }
             
             if (isset($tabPost[$cpt_utilisateur."_ville_maj_ok"])){
@@ -369,7 +369,7 @@ class LicenceController{
                     ':ville' => $tabPost[$cpt_utilisateur."_ville_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $ville_ok = LicenceBase::updateVille($o_conn, $data);
+                $ville_ok = LicenceDAO::updateVille($o_conn, $data);
             }
                 
             if (isset($tabPost[$cpt_utilisateur."_portable_maj_ok"])){
@@ -378,7 +378,7 @@ class LicenceController{
                     ':tel_portable' => "0".$tabPost[$cpt_utilisateur."_portable_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $tel_portable_ok = LicenceBase::updateTelPortable($o_conn, $data);
+                $tel_portable_ok = LicenceDAO::updateTelPortable($o_conn, $data);
             }
                 
             if (isset($tabPost[$cpt_utilisateur."_domicile_maj_ok"])){
@@ -387,7 +387,7 @@ class LicenceController{
                     ':tel_domicile' => "0".$tabPost[$cpt_utilisateur."_domicile_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                LicenceBase::updateTelDomicile($o_conn, $data);
+                LicenceDAO::updateTelDomicile($o_conn, $data);
             }
                 
 
@@ -397,7 +397,7 @@ class LicenceController{
                     ':tel_bureau' => "0".$tabPost[$cpt_utilisateur."_bureau_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                LicenceBase::updateTelBureau($o_conn, $data);
+                LicenceDAO::updateTelBureau($o_conn, $data);
             }
                 
 
@@ -407,7 +407,7 @@ class LicenceController{
                     ':tel_resp_legal_1' => "0".$tabPost[$cpt_utilisateur."_rl1_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $tel_responsable_legal_1_ok = LicenceBase::updateTelRespLegal1($o_conn, $data);
+                $tel_responsable_legal_1_ok = LicenceDAO::updateTelRespLegal1($o_conn, $data);
             }
                 
             
@@ -417,7 +417,7 @@ class LicenceController{
                     ':tel_resp_legal_2' => "0".$tabPost[$cpt_utilisateur."_rl2_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $tel_responsable_legal_2_ok = LicenceBase::updateTelRespLegal2($o_conn, $data);
+                $tel_responsable_legal_2_ok = LicenceDAO::updateTelRespLegal2($o_conn, $data);
             }
                 
 
@@ -427,7 +427,7 @@ class LicenceController{
                     ':num_appt' => $tabPost[$cpt_utilisateur."_num_appt_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $num_appt_ok = LicenceBase::updateNumAppt($o_conn, $data);
+                $num_appt_ok = LicenceDAO::updateNumAppt($o_conn, $data);
             }
                 
 
@@ -437,7 +437,7 @@ class LicenceController{
                     ':residence' => $tabPost[$cpt_utilisateur."_residence_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $residence_ok = LicenceBase::updateResidence($o_conn, $data);
+                $residence_ok = LicenceDAO::updateResidence($o_conn, $data);
             }
                 
         
@@ -447,7 +447,7 @@ class LicenceController{
                     ':lieu_dit' => $tabPost[$cpt_utilisateur."_lieu_maj_ok"],
                     ':id' => $cpt_utilisateur
                 );
-                $lieu_dit_ok = LicenceBase::updateLieuDit($o_conn, $data);
+                $lieu_dit_ok = LicenceDAO::updateLieuDit($o_conn, $data);
             }
                
 
@@ -461,7 +461,7 @@ class LicenceController{
                     ':offre_com' => $offre_com,
                     ':id' => $cpt_utilisateur
                 );
-                $offre_com_ok = LicenceBase::updateOffreCom($o_conn, $data);
+                $offre_com_ok = LicenceDAO::updateOffreCom($o_conn, $data);
             }
             
             //echo " - fin utili</br>";

@@ -1,0 +1,32 @@
+@startuml
+
+title Import des nouveaux licenciés \n
+
+start
+
+:formulaire d'import
+=>rub=importation
+=>UtilisateurController::importation
+=>import-formulaire.thtml.twig
+=>envoi ver admin-trt-fichier
+;
+
+:affichage du résultat de l'analyse
+=>rub=admin-trt-fichier
+=>UtilisateurController::trtFichier
+
+- récupération des utulisateurs actuels
+- parsage du fichier des licenciés
+- envoi des tableaux nouveaux et à modifier à affichés
+  =>à import-resultat-lecture.html.twig
+  avec bouton de déclenchement de l'import
+  =>envoi vers ajout-nveau-bdd;
+
+:ajout des nouveaux licenciés comme utilisateurs
+=>rub=ajout-nouveau-bdd
+=>UtilisateurController::creationNouveauBase
+
+- on analyse le fichier
+- on cherche les équivalences dans la base
+- pour chaque nouveau cas : on ajoute
+  =>envoi du résultat dans import-resultat-ajout-bdd;

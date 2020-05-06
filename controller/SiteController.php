@@ -12,7 +12,8 @@ class SiteController
             'cache' => false,
         ]);
 
-        echo $twig->render('index.html.twig');
+        echo $twig->render('index.html.twig',
+            ["session" => $_SESSION]);
     }
 
     /* affichage la page d'accueil du site */
@@ -23,7 +24,8 @@ class SiteController
         ]);
 
         echo $twig->render('matchs.html.twig',
-                ['rub' => $tabGET['rub']]);
+                ['rub' => $tabGET['rub'],
+                "session" => $_SESSION]);
     }
 
     /* page de listage des functionnalités du site */
@@ -33,8 +35,9 @@ class SiteController
             'cache' => false,
         ]);
 
-        echo $twig->render('aide.html.twig', 
-                                    ['rub' => $tabGET['rub']]);
+        echo $twig->render('a-propos.html.twig', 
+                                    ['rub' => $tabGET['rub'],
+                                    "session" => $_SESSION]);
     }
 
     /* affichage la page d'accueil du site */
@@ -45,6 +48,25 @@ class SiteController
         ]);
 
         echo $twig->render('connexion.html.twig',
-                            ['rub' => $tabGET['rub']]);
+                            ['rub' => $tabGET['rub'],
+                            "session" => $_SESSION]);
+    }
+
+    /** deconnexion : renvoie à la page d'accueil */
+    public static function deconnexion(){
+        $_SESSION['nom'] = "";
+        $_SESSION['prenom'] = "";
+        $_SESSION['login'] = "";
+        $_SESSION['role'] = "";
+
+        // envoi de la réponse
+        $loader = new \Twig\Loader\FilesystemLoader('view');
+        $twig = new \Twig\Environment($loader, [
+            'cache' => false,
+        ]);
+
+        echo $twig->render('matchs.html.twig',
+                            ["session" => $_SESSION]);
+
     }
 }

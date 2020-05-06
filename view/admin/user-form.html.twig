@@ -10,6 +10,8 @@
 {%    set login = "" %}
 {% set actif = 0 %}
 {% set mailcoonfirme = 0 %}
+{% set role = 0 %}
+{% set role_av = 0 %}
 
 {% if mode == "new"%}
     <h1>Administration - Ajout d'un nouvel utilisateur</h1>
@@ -23,7 +25,10 @@
     {% set email = utilisateur.uti_email %}
     {% set login = utilisateur.uti_login %}
     {% set actif = utilisateur.uti_actif %}
-    {% set mailconfirme = utulisateur.uti_mailconfirme %}
+    {% set mailconfirme = utilisateur.uti_mailconfirme %}
+    {% set role = utilisateur.dis_rol_id %}
+    {% set role_avant = utilisateur.dis_rol_id %}
+
 
 {% endif %}
 <table>
@@ -49,18 +54,29 @@
         <td class="oui">
             <input type="checkbox" name="actif" checked value="actif">
         {% else %}
-        <td class=-"non">
+        <td class="non">
             <input type="checkbox" name="actif" value="">
         {% endif %}
         </td>
     </tr>
     <tr>
         <th>Mail confirmé ?</th>
-        {% if mailconfirme == 1%}
+        {% if mailconfirme == 1 or mailconfirme =="1" %}
         <td class="oui">Oui</td>
         {% else %}
          <td class="non">Non</td>     
          {% endif %}
+    </tr>
+    <tr>
+        <th>Rôle ? </th>
+        <td>
+            <input type="hidden" name="role_avant" value="{{role_avant}}">
+            <select id="role" name="role">
+                {%for r in roles%}
+                    <option value="{{r.rol_id}}" {%if role== r.rol_id%}selected{%endif%}>{{ r.rol_libelle }}</option>
+                {%endfor%}
+            </select>
+        </td>
     </tr>
 
     <tr><td colspan="2">&nbsp;</td></tr>

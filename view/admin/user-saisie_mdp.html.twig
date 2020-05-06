@@ -1,0 +1,17 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Création de votre mot de passe{% endblock %}
+
+{% block content %}
+    <h1>Création de votre mot de passe</h1>
+    <form action="index.php?rub=sauve-mdp" method="post" id="form-mdp" onsubmit="return checkPass();">
+        <input type="hidden" name="id" value="{{id}}">
+    Veuillez saisir votre mot de passe : <input type="password" name="mdp1" id="mdp1" required><br/>
+    Veuillez confirmer votre mot de passe : <input type="password" name="mdp2" id="mdp2" required><br/>
+    <p>Notez de bien vous souvenir du mot de passe, car il ne pourra pas vous être envoyé. <br>
+    Il n'est en effet pas stocké en clair dans notre base de données.</p>
+    <input type="submit" value="Valider" id="btn_valider">
+    </form>
+    
+    <script src="public/js/verif-mdp.js"></script>
+{% endblock %}

@@ -18,6 +18,10 @@ switch ($rub) {
         SiteController::connexion($_GET);
         break;
 
+    case "deconnexion":
+        SiteController::deconnexion();
+    break;
+
     case "matchs":
         MatchController::displayMatchs($_GET);
         break;
@@ -81,6 +85,24 @@ switch ($rub) {
     case "confirmation-email":
         UtilisateurController::mailConfirm($_GET);
         break;    
+
+
+    case "generation-email":
+        UtilisateurController::generationLienEmail($_GET);
+    break;
+
+    case "saisie-mdp":
+        UtilisateurController::saisieMdp($_GET);
+    break;
+
+    case "sauve-mdp":
+        UtilisateurController::savePassword($_POST);
+    break;
+
+    case "verif-identifiants":
+        UtilisateurController::verifIdentifiants($_POST);
+    break;
+
 
     default:
         $tabGET = array(

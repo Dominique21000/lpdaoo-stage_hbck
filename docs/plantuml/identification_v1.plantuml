@@ -1,0 +1,28 @@
+@startuml
+
+title Processus d'inscription / identification
+
+start
+
+floating note left: inscription sur le site
+
+while(inscrit sur le site ?) is (non)
+    :demandez votre inscription à l'administrateur;
+endwhile (oui)
+
+while (mail reçu) is (non)
+        :demandez envoi du mail de confirmation;
+    endwhile (oui);
+
+if (première connexion ?) then (oui)
+    :création du mot de passe;
+else (non)
+    :saisie de vos identifiants;
+endif
+
+
+:entrer sur le site :-);
+stop
+
+
+@enduml
