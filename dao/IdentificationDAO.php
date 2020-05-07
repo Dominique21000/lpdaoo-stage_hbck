@@ -24,7 +24,7 @@ class IdentificationDAO {
 
     /**
      * ajoute un element à la table
-     * @return id
+     * @return boolean
      */
     public static function add($db, $id, $mdp){
         $sql = "INSERT INTO lps_Identification (ide_id, ide_mdp) VALUES (:id, :mdp);";
@@ -32,6 +32,15 @@ class IdentificationDAO {
 
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->bindParam(":mdp", $mdp, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    /** on met à jour l'identification */
+    public static function updatePassword($o_conn, $id, $mdp){
+        $sql = "UPDATE lps_Identification SET ide_mdp = :mdp WHERE ide_id = :id;";
+        $stmt = $o_conn->prepare($sql);
+        $stmt->bindParam(":mdp", $mdp, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

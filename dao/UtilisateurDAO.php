@@ -24,6 +24,7 @@ class UtilisateurDAO{
         $sql = "SELECT * ";
         $sql .= " FROM lps_Utilisateur ";
         $sql .= " INNER JOIN lps_Disposer ON lps_Utilisateur.uti_id = lps_Disposer.dis_uti_id ";
+        $sql .= " INNER JOIN lps_Role ON lps_Disposer.dis_rol_id = lps_Role.rol_id ";
         $sql .= " WHERE uti_id = :id ";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -103,12 +104,13 @@ class UtilisateurDAO{
 
     public static function checkUser($db, $login , $mdp){
         
-        $sql = "select lps_Utilisateur.uti_login, lps_Role.rol_libelle, lps_Utilisateur.uti_prenom, lps_Utilisateur.uti_nom ";
+        $sql = "select lps_Utilisateur.uti_id, lps_Utilisateur.uti_login, lps_Role.rol_libelle, lps_Utilisateur.uti_prenom, lps_Utilisateur.uti_nom ";
         $sql .= " from lps_Utilisateur ";
         $sql .= " inner JOIN lps_Disposer on lps_Utilisateur.uti_id = lps_Disposer.dis_uti_id ";
         $sql .= " inner join lps_Identification on lps_Disposer.dis_ide_id=lps_Identification.ide_id ";
         $sql .= " inner join lps_Role on lps_Disposer.dis_rol_id = lps_Role.rol_id ";
         $sql .= " where lps_Utilisateur.uti_login = :login and lps_Identification.ide_mdp = :mdp ";
+        $sql .= " and lps_Utilisateur.uti_actif = 1;";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':login', $login);
         $stmt->bindParam(':mdp', $mdp);

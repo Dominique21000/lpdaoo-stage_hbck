@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration : {{rubrique}}{%endblock%}
+
+{% block content %}
+    <h1>{{ rubrique }} : {{fonctionnalites}}</h1>
+
+    {% if res == true %}
+        <span class="oui">{{message}}</span>
+    {% else %}
+        <span class="non">{{message}}</span>
+    {% endif %}
+
+{% endblock %}

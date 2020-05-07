@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Editer mes informations{%endblock%}
+
+{%block content%}
+    <div class="row haut">
+        <div class="col-lg-12 colg-md-12 col-sm-12">
+            <h1>Informations personnelles</h1>
+            <h2>Mes informations</h2>
+            
+                <table>
+                    <tr>
+                        <th>Login</th>
+                        <td>{{utilisateur.uti_login}}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ utilisateur.uti_prenom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ utilisateur.uti_nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mail confirmé ?</th>
+                        <td{% if utilisateur.uti_mailconfirme == "1" %} class="oui">OUI{% else %}class="non">NON{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Rôle</th>
+                        <td>{{ utilisateur.rol_libelle }}</td>
+                    </tr>
+                </table>
+            <h2>Modification du mot de passe</h2>
+            <form action="index.php?rub=updateMdp" method="post" onsubmit="return checkPass();">
+            <input type="hidden" name="id" value="{{session.id_visiteur}}">
+                <table>
+                    <tr>
+                        <th>Mot de passe</th>
+                        <td><input type="password" name="mdp1" id="mdp1" required></td>
+                    </tr>
+                    <tr>
+                        <th>Confirmer votre mot de passe</th>
+                        <td><input type="password" name="mdp2" id="mdp2" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Valider">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script src="public/js/verif-mdp.js"></script>
+        </div>
+    </div>
+{%endblock%}  

@@ -371,8 +371,8 @@ class UtilisateurController {
 
             $_SESSION["admin"] = true;
             $login = $utilisateur[0]['uti_login'];
-
-            $_SESSION['role'] = $utilisateur[0]['rol_libelle'];;
+            $_SESSION['id_visiteur'] = $utilisateur[0]['uti_id'];
+            $_SESSION['role'] = $utilisateur[0]['rol_libelle'];
             $_SESSION['prenom'] = $utilisateur[0]['uti_prenom'];
             $_SESSION['nom'] = $utilisateur[0]['uti_nom'];
 
@@ -393,6 +393,98 @@ class UtilisateurController {
                 echo $twig->render('error/connexion-ko.html.twig',[
                             ]
                     );
+        }
+    }
+
+    public static function editMyInfos($tabGET){
+        $db = new Database();
+        $o_conn = $db->makeConnect();
+        $utilisateur = UtilisateurDAO::getById($o_conn, $_SESSION["id_visiteur"]);
+        //var_dump($utilisateur);
+        $roles = RoleDAO::getList($o_conn);
+
+        //envoi de la réponse
+        $loader = new \Twig\Loader\FilesystemLoader('view');
+        $twig = new \Twig\Environment($loader, [
+                      'cache' => false,
+                  ]);
+        echo $twig->render('user-edit-informations.html.twig',[
+                                "session" => $_SESSION,
+                                "utilisateur" => $utilisateur,
+                                "roles" => $roles
+                            ]
+                        );
+    }
+
+    /** function pour mettre à jour le mot de passe */
+    public static function updateMdp($tabPost){
+        $db = new Database();
+        $o_conn = $db->makeConnect();
+        
+        // recup des données
+        $res_id = false;
+        if (isset($tabPost['id'])){
+            $res_id = true;
+            $id_utilisateur = $tabPost['id'];
+        }
+
+        $res_mdp1 = false;
+        if (isset($tabPost['mdp1'])){
+            $res_mdp1 = true;
+            $mdp1 = $tabPost['mdp1'];
+        }
+
+        $res_mdp2 = false;
+        if (isset($tabPost['mdp2'])){
+            $res_mdp2 = true;
+            $mdp2 = $tabPost['mdp2'];
+        }
+
+        $res_mdp = false;
+        if ($mdp1 == $mdp2){
+            $res_mdp = true;
+        }
+
+        if ($res_id && $res_mdp1 && $res_mdp2 && $res_mdp)
+        {
+            // chiffrage et mise à jour du mot de passe 
+            $mdp_c = hash("sha256", $mdp1);
+            $res_update = IdentificationDAO::updatePassword($o_conn, $id_utilisateur, $mdp_c);
+
+            if ($res_update == true ){
+                $message = "Votre mot de passe a été correctement modifié.";
+                
+                // envoi de la réponse
+                $loader = new \Twig\Loader\FilesystemLoader('view');
+                $twig = new \Twig\Environment($loader, [
+                         'cache' => false,
+                      ]);
+
+                      
+                echo $twig->render('admin/display-result.html.twig',[
+                    "rubrique" => "Administration des utilisateurs",
+                    "fonctionnalites" => "Modification de votre mot de passe",
+                    "message" => $message,
+                    "res" => true,
+                    "session" => $_SESSION]
+                    );  
+            }
+            else
+            {
+                // envoi de la réponse
+                $message = "Il y a eu un problème durant l'enregistrement de votre mot de passe.";
+                $loader = new \Twig\Loader\FilesystemLoader('view');
+                $twig = new \Twig\Environment($loader, [
+                         'cache' => false,
+                      ]);
+                echo $twig->render('admin/display-result.html.twig',[
+                    "rubrique" => "Administration des utilisateurs",
+                    "fonctionnalites" => "(re)création de votre mot de passe",
+                    "message" => $message,
+                    "res" => true,
+                    "session" => $_SESSION]
+                    );  
+            }
         }
     }
 }
