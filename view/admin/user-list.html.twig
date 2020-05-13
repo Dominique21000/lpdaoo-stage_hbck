@@ -53,7 +53,7 @@
                 </td>
                 
                 {% if u.uti_mailconfirme == 1 %}
-                    <td class="oui">Oui
+                    <td class="oui">Oui - <a href="index.php?rub=envoi-mail&id={{ u.uti_id }}" style="color:white;">Renvoyer le mail</a>
                 {% else %}
                     <td class="non">Non - <a href="index.php?rub=envoi-mail&id={{ u.uti_id }}" style="color:white;">Renvoyer le mail</a>
                 {% endif %}

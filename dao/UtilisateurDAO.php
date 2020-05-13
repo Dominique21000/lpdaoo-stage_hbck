@@ -93,9 +93,11 @@ class UtilisateurDAO{
         return $stmt->execute();
     } 
 
+    /** appeler pour confirmer le mail, rend aussi actif l'utilisateur */
     public static function mailConfirm($db, $id){
         $sql = "UPDATE lps_Utilisateur SET ";
-        $sql .= " uti_mailconfirme = 1 ";
+        $sql .= " uti_mailconfirme = 1,  ";
+        $sql .= " uti_actif = 1 ";
         $sql .= " where uti_id = :id";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);

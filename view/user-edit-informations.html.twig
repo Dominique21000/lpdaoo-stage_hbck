@@ -22,6 +22,10 @@
                         <td>{{ utilisateur.uti_nom }}</td>
                     </tr>
                     <tr>
+                        <th>Email</th>
+                        <td>{{ utilisateur.uti_email }}</td>
+                    </tr>
+                    <tr>
                         <th>Mail confirmé ?</th>
                         <td{% if utilisateur.uti_mailconfirme == "1" %} class="oui">OUI{% else %}class="non">NON{% endif %}</td>
                     </tr>
@@ -49,7 +53,7 @@
                     </tr>
                 </table>
             </form>
-            <script src="public/js/verif-mdp.js"></script>
+            <script src="public/js/function.js"></script>
         </div>
     </div>
 {%endblock%}  

@@ -8,6 +8,7 @@
 -- creation de la table des licencies
 CREATE TABLE lps_Licence (
     lic_id int PRIMARY KEY,
+    lic_num_structure varchar(50),
     lic_nom VARCHAR(50),
     lic_prenom VARCHAR(50),
     lic_sexe char,
@@ -16,13 +17,16 @@ CREATE TABLE lps_Licence (
     lic_date_naissance DATE,
     lic_email VARCHAR(100),
     lic_mdp VARCHAR(1024),
-    lic_adresse VARCHAR(100),
+    lic_rue VARCHAR(100),
     lic_cp VARCHAR(5),
     lic_ville VARCHAR(50),
     lic_tel_portable VARCHAR(20),
+    lic_tel_domicile VARCHAR(20),
     lic_tel_bureau VARCHAR(20),
     lic_tel_resp_legal_1 VARCHAR(20),
     lic_tel_resp_legal_2 VARCHAR(20),
+    lic_num_appt varchar(50),
+    lic_residence varchar(50),
     lic_lieu_dit VARCHAR(50),
     lic_offrecom TINYINT
 );

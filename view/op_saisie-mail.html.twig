@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{%block title%}Administration : Oublie de votre mot de passe{%endblock%}
+
+
+{% block content %}
+<div class="row haut">
+    <div class="col-lg-12 colg-md-12 col-sm-12">
+        <h2>Oubli de votre mot de passe</h2>
+        Vous avez oublié votre mot de passe ?<br>
+        Notre système ne stockant pas celui-ci en clair, nus ne pouvons pas vous le fournir.<br>
+        Par contre, si vous saisisez votre mail, nous vous renverrons un mail vous permettant de générer un nouveau mot de passe.
+        <form action="index.php?rub=email-password" method="post">
+            Votre email : <input type="email" name="email" required><br>
+            <input type="submit" value="Je demande le lien">
+        </form> 
+
+
+    </div>
+</div>
+{% endblock %}

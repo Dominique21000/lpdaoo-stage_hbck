@@ -62,14 +62,34 @@ class UtilisateurController {
         if (UtilisateurDAO::getCount($o_conn) > 0){
             $id_utilisateur = $ub->getMaxi($o_conn) +1; 
         }
+        
         $ub_ajout = UtilisateurDAO::add($o_conn, $id_utilisateur, $prenom, $nom, $email, $login);
 
         // affectation du role à la table lps_Disposer
         $role_ajout = DisposerDAO::add($o_conn, $id_utilisateur, $role);
 
 
-        if ($ub_ajout == true && $role_ajout == true)
-            $message = "L'utilisateur a été correctement ajouté.";
+        if ($ub_ajout == true && $role_ajout == true){
+            $message = "L'utilisateur a été correctement ajouté. ";
+            
+            $chaine = hash("sha256", "HBCK_67-68_".$id_utilisateur);
+            $adresse_web = "http://lpdaoo.dominiquesauvignon.eu/stage_hbck/index.php?rub=confirmation-email&id=$id_utilisateur&chaine=$chaine";
+            $msg = "Bonjour $prenom $nom,\n";
+            $msg .= "Vous avez (ou une personne l'a fait pour vous) crée sur le site HBCK afin afin de pouvoir vous connecter à ce site.\n";
+            $msg .= "Merci de bien vouloir cliquez sur le lien suivant afin de valider votre adresse mail : ";
+            $msg .= "$adresse_web\n";
+            $msg .= "Le site vous invitera ensuite à crérer votre mot de passe. \nFaites atttentions à bien vous en souvenir ensuite, ";
+            $msg .= "car nous serons alors dans l'incapacité de vous le redonner. Le seul moyen d'en avoir un nouveau sera alors de contacter l'administrateur de ce site.\n";
+            $msg .= "\n\nSportivement\n";
+            $msg .= "Le webmaster du HBCK.";
+            $sujet = utf8_encode("HBCK - Création d'un nouvel utilisateur");
+
+            if ($envoiMail = Outils::sendMail($email, $prenom, $nom, $sujet, $msg, $id_utilisateur)==1){
+                $message .= "Un mail de confirmation de l'adresse mail lui a été envoyé.";
+            }
+        }
+            
+            
         else
             $message = "Il y a eu un problème durant l'ajout.";
             
@@ -174,17 +194,30 @@ class UtilisateurController {
         $db = new Database();
         $o_conn =$db->makeConnect();
         
-
+        $id = intval($tabGET['id']);
         $utilisateur = UtilisateurDAO::getById($o_conn, intval($tabGET['id']));
+        
+        // creation du mail
         $to = $utilisateur['uti_email']; 
         $prenom = $utilisateur['uti_prenom'];
         $nom = $utilisateur['uti_nom']; 
 
-        if (Outils::sendMail($to, $prenom, $nom) == 1)
+        $chaine = hash("sha256", "HBCK_67-68_".$id);
+        $adresse_web = "http://lpdaoo.dominiquesauvignon.eu/stage_hbck/index.php?rub=confirmation-email&id=$id&chaine=$chaine";
+        $subject = 'HBCK - Vérification de votre email';
+        $msg = "Bonjour $prenom $nom,\n";
+        $msg .= "Vous avez (ou une personne l'a fait pour vous) crée sur le site HBCK afin afin de pouvoir vous connecter à ce site.\n";
+        $msg .= "Merci de bien vouloir cliquez sur le lien suivant afin de valider votre adresse mail : ";
+        $msg .= "$adresse_web\n";
+        $msg .= "Le site vous invitera ensuite à crérer votre mot de passe. \nFaites atttentions à bien vous en souvenir ensuite, ";
+        $msg .= "car nous serons alors dans l'incapacité de vous le redonner. Le seul moyen d'en avoir un nouveau sera alors de contacter l'administrateur de ce site.\n";
+        $msg .= "\n\nSportivement\n";
+        $msg .= "Le webmaster du HBCK.";
+        
+        if (Outils::sendMail($to, $prenom, $nom, $subject, $msg, -1) == 1)
             $message = "Le mail a été correctement envoyé à $prenom $nom ($to)";
         else
             $message = "Il y a eu un problème durant l'envoi du mail";
-            
             
         // envoi de la réponse
         $loader = new \Twig\Loader\FilesystemLoader('view');
@@ -196,7 +229,7 @@ class UtilisateurController {
                                 "session" => $_SESSION]);  
     }
 
-    /** res */
+    /** appelé lors du clc sur le mail, pour confirmé celui-ci */
     public static function mailConfirm($tabGET){
         $id =  intval($tabGET['id']);
         // envoi de la réponse
@@ -217,6 +250,7 @@ class UtilisateurController {
                 $db = new Database();
                 $o_conn = $db->makeConnect();
                 UtilisateurDAO::mailConfirm($o_conn, $id);
+                
                 echo $twig->render('user-mail-ok.html.twig',[
                     "rubrique" => "Administration des utilisateurs",
                     "id" => $id,
@@ -264,7 +298,7 @@ class UtilisateurController {
             $utilisateur = UtilisateurDAO::getById($o_conn, $id);
             echo "id : " . $id . "<br>";
             echo "login : " .$utilisateur['uti_login']."<br>";
-            $chaine = hash("sha256", "HBCK_67-68_".$id)."<br>";
+            $chaine = hash("sha256", "HBCK_67-68_".$id);
             $ip = "127.0.0.1";
             //$virtual_path = "/sites/ovh/www/dominiquesauvignon_eu/www/lpdaoo/stage_hbck/";
 
@@ -485,6 +519,96 @@ class UtilisateurController {
                     "session" => $_SESSION]
                     );  
             }
+        }
+    }
+
+    public static function oubliPassword(){
+        $loader = new \Twig\Loader\FilesystemLoader('view');
+        $twig = new \Twig\Environment($loader, [
+                         'cache' => false,
+                      ]);
+        echo $twig->render('op_saisie-mail.html.twig',[
+                    "session" => $_SESSION]
+                    );  
+    }
+
+    public static function verifEmailEnvoiLien($tabGET){
+        $mail = $tabGET['email'];
+
+        // on vérifie le mail
+        $db = new Database();
+        $o_conn = $db->makeConnect();
+        $data = array(
+            ":email" => $mail
+        );
+        $util = UtilisateurDAO::getUtilisateurFromEmail($o_conn, $data);
+        if (count($util) > 0 ){
+            // mail ok, on génére le lien
+            $destinataire = $util[0]["uti_email"];
+            $prenom = $util[0]['uti_prenom'];
+            $nom = $util[0]['uti_nom'];
+            $id = intval($util[0]['uti_id']);
+            $chaine = hash("sha256", "HBCK_67-68_".$id);
+            $sujet = utf8_encode("HBCK - Regénération de votre mot de passe.");
+            
+            $msg = "Bonjour $prenom $nom,\n\n";
+            $msg .= "Vous (ou une personne pour vous) avez demandé à re créer votre mot de passe.\n\n";
+            $adresse_web = "http://lpdaoo.dominiquesauvignon.eu/stage_hbck/index.php?rub=saisie-mdp&id=$id&chaine=$chaine";
+            $msg .= "Voici le lien qui vous permettra de re-créer votre mot de passe : " . $adresse_web;
+            
+            
+            $msg .= "\n\nSportivement\n";
+            $msg .= "L'équipe du HBCK";
+
+            if (Outils::sendMail($destinataire, $prenom, $nom, $sujet, $msg, $id))
+            {
+                // envoi réponse de confirmation
+                // envoi de la réponse
+                $loader = new \Twig\Loader\FilesystemLoader('view');
+                $twig = new \Twig\Environment($loader, [
+                         'cache' => false,
+                      ]);
+                
+                    echo $twig->render('op_mdp-mail-ok.html.twig',[
+                    "rubrique" => "Administration des utilisateurs",
+                    "fonctionnalites" => "(re)création de votre mot de passe",
+                    "email" => $destinataire,
+                    "session" => $_SESSION]
+                    );  
+            }
+            else{
+                // envoi de la réponse si pas ko
+                $loader = new \Twig\Loader\FilesystemLoader('view');
+                $twig = new \Twig\Environment($loader, [
+                         'cache' => false,
+                      ]);
+                
+                    echo $twig->render('admin/display-result.html.twig',[
+                    "rubrique" => "Administration des utilisateurs",
+                    "fonctionnalites" => "(re)création de votre mot de passe",
+                    "email" => $destinataire,
+                    "res"=> false,
+                    "session" => $_SESSION]
+                    );  
+            }
+
+        }
+        else{
+            // envoi de la réponse
+            $loader = new \Twig\Loader\FilesystemLoader('view');
+            $twig = new \Twig\Environment($loader, [
+                     'cache' => false,
+                  ]);
+
+                $message = "Désolé, votre email n'a pas été reconnu.";
+                  
+            echo $twig->render('admin/display-result.html.twig',[
+                "rubrique" => "Administration des utilisateurs",
+                "fonctionnalites" => "Ré création de votre mot de passe.",
+                "message" => $message,
+                "res" => false,
+                "session" => $_SESSION]
+                );  
         }
     }
 }

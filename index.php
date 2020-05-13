@@ -60,7 +60,7 @@ switch ($rub) {
 
 
     case "mise-a-jour":
-        LicenceController::majUtilisateur($_POST);
+        LicenceController::majLicencie($_POST);
         break;
     // fin trt par lot    
 
@@ -117,6 +117,14 @@ switch ($rub) {
 
     case "updateMdp":
         UtilisateurController::updateMdp($_POST);
+    break;
+
+    case "oubli-password":
+        UtilisateurController::oubliPassword();
+    break;
+
+    case "email-password":
+        UtilisateurController::verifEmailEnvoiLien($_POST);
     break;
 
     default:

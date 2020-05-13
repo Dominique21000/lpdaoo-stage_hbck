@@ -40,7 +40,6 @@ class DisposerDAO{
         $stmt->bindParam(":id", intval($id_disp), PDO::PARAM_INT);
         $stmt->bindParam(":uti", intval($uti_id), PDO::PARAM_INT);
         $stmt->bindParam(":rol", $rol_id, PDO::PARAM_INT);
-        var_dump($stmt);
         return $stmt->execute();
     }
 

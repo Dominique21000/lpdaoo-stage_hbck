@@ -8,8 +8,10 @@ class MatchController{
             'cache' => false,
         ]);
 
-        echo $twig->render('matchs-recents.html.twig',
-                            ['rub' => $tabGET['rub']]);
+        echo $twig->render('matchs-recents.html.twig',[
+                                'rub' => $tabGET['rub'],
+                                "session" => $_SESSION
+                            ]);
     }
 
     /* affichage la page des matchs à venir */
@@ -20,7 +22,8 @@ class MatchController{
         ]);
 
         echo $twig->render('matchs-a-venir.html.twig',
-                        ['rub' => $tabGET['rub']]
+                        ['rub' => $tabGET['rub'],
+                        "session" => $_SESSION]
                             );
     }
 
@@ -32,7 +35,8 @@ class MatchController{
         ]);
 
         echo $twig->render('matchs.html.twig',
-                                ['rub' => $tabGET['rub']]
+                                ['rub' => $tabGET['rub'],
+                                "session" => $_SESSION]
                         );
     }
 }

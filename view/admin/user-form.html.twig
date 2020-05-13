@@ -59,6 +59,7 @@
         {% endif %}
         </td>
     </tr>
+    {% if mode != "new" %}
     <tr>
         <th>Mail confirmé ?</th>
         {% if mailconfirme == 1 or mailconfirme =="1" %}
@@ -67,6 +68,7 @@
          <td class="non">Non</td>     
          {% endif %}
     </tr>
+    {% endif %}
     <tr>
         <th>Rôle ? </th>
         <td>
